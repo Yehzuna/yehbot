@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+    <title>Demo</title>
+</head>
+<body>
+
+<div class="twitch" style="float: left">
+    <iframe frameborder="0" scrolling="no" id="yehzuna" src="http://www.twitch.tv/yehzuna/chat" height="600" width="350"></iframe>
+</div>
+
+<button id="button">Test</button>
+<div class="bot" id="message"></div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="js/yehbot.js"></script>
+<script>
+    let yehBot = new YehBot({
+        channel: '#yehzuna',
+        username: 'yehzuna',
+        password: 'oauth:pg4qy604fxcbwzf7n0sm4yaif6fmqr',
+    });
+
+    $(function () {
+        $('#button').click(function () {
+            yehBot.sendMessage("Test message");
+        });
+    })
+</script>
+
+</body>
+</html>

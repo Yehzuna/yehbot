@@ -1,16 +1,27 @@
 <!doctype html>
 <html>
 <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <title>Demo</title>
+    <link href="css/yehbot.css" rel="stylesheet" />
 </head>
 <body>
+<div class="wrapper">
+    <div class="chat">
+        <iframe frameborder="0" scrolling="no" id="yehzuna" src="http://www.twitch.tv/yehzuna/chat" height="600" width="350"></iframe>
+    </div>
+    <div class="placeholder">
+        <div class="overlay"></div>
+    </div>
+    <div class="command">
+        <button id="button">Test message</button>
+        <div class="log">
 
-<div class="twitch" style="float: left">
-    <iframe frameborder="0" scrolling="no" id="yehzuna" src="http://www.twitch.tv/yehzuna/chat" height="600" width="350"></iframe>
+        </div>
+    </div>
 </div>
-
-<button id="button">Test</button>
-<div class="bot" id="message"></div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="js/yehbot.js"></script>

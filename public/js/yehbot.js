@@ -8,6 +8,8 @@ class YehBot {
         this.password = options.password;
         this.channel = options.channel;
 
+        this.commands = new YehBotCommands();
+
         this.open();
     }
 
@@ -24,7 +26,7 @@ class YehBot {
         let socket = this.webSocket;
 
         if (socket !== null && socket.readyState === 1) {
-            console.log('Connecting and authenticating...');
+            this.log("Connecting and authenticating...");
 
             socket.send('CAP REQ :twitch.tv/tags twitch.tv/commands twitch.tv/membership');
             socket.send('PASS ' + this.password);
@@ -34,55 +36,62 @@ class YehBot {
     };
 
     onClose() {
-        console.log('Disconnected from the chat server.');
+        this.log("Disconnected from the chat server.");
 
         this.webSocket.close();
     };
 
     onError(event) {
-        console.log('Error: ' + event);
+        this.log("Error: " + event);
     };
 
     onMessage(event) {
         if (event !== null) {
-            console.log(event);
-
             this.decodeMessage(event.data);
         }
     };
 
     sendMessage(message) {
-        console.log('Send PRIVMSG');
+        this.log("Send PRIVMSG " + message);
 
         this.webSocket.send(`PRIVMSG ${this.channel} :${message}\r\n`);
-    }
+    };
 
-    sendNotice(user, message) {
-        console.log('Send NOTICE');
+    sendCommand(command, params) {
+        if (typeof this.commands[command] === 'function'){
+            this.commands[command](params);
 
-        this.webSocket.send(`@msg-id=${user}:tmi.twitch.tv NOTICE ${user} :${message}\r\n`);
-    }
+            this.log("Send COMMAND " + command);
+        }
+    };
 
     sendPong(data) {
-        console.log('Send PONG');
+        this.log("Send PONG");
 
         this.webSocket.send(`PONG ${data}`);
-    }
+    };
 
     decodeMessage(message) {
         let decode = message.split(' ');
-        //console.log(message);
-        //console.log(decode);
 
         if (message[0] === '@') {
-            let parse = this.parseMessage(decode);
-            console.log(parse);
+            let parsedMessage = this.parseMessage(decode);
+
+            this.log(parsedMessage);
+
+            if (!parsedMessage) {
+                return false;
+            }
+
+            if (parsedMessage['command']) {
+                this.sendCommand(parsedMessage['command'], parsedMessage);
+            }
         }
 
         if (decode[0] === 'PING') {
             this.sendPong(decode[1]);
         }
-    }
+    };
 
     parseMessage(messageArray) {
 
@@ -91,12 +100,12 @@ class YehBot {
         }
 
         // tags
-        let tagsArray = messageArray[0].split(";");
+        let tagsArray = messageArray[0].slice(1).split(";");
         let tags = {};
         tagsArray.forEach(function (data) {
             let split = data.split('=');
 
-            if(split[1].split(',').length === 1) {
+            if (split[1].split(',').length === 1) {
                 tags[split[0]] = split[1];
             } else {
                 tags[split[0]] = split[1].split(',');
@@ -104,17 +113,17 @@ class YehBot {
         });
 
         // message
-        let message = messageArray[4].slice(1);
+        let message = messageArray[4].slice(1).trim();
 
         // command
         let command = false;
         if (message[0] === '!') {
-            command = message.slice(1);
+            command = message.slice(1).trim();
         }
 
         // user
         let userArray = messageArray[1].split('!');
-        let user = userArray[0].slice(1);
+        let user = userArray[0].slice(1).trim();
 
         return {
             message: message,
@@ -123,5 +132,43 @@ class YehBot {
             user: user,
             original: messageArray
         };
+    };
+
+    log(log) {
+        console.log(log);
+
+        let date = new Date();
+
+        if (typeof log === 'string') {
+            let div = document.querySelector('.log');
+            div.innerHTML = `${div.innerHTML} ${date.toTimeString()} - ${log} \t\n`;
+        }
+    }
+}
+
+
+class YehBotCommands {
+    constructor() {
+        this.overlay = document.querySelector('.overlay');
+    }
+
+    user(params) {
+
+        let str = params.user;
+        if (params.tags['display-name'] !== "") {
+            str = params.tags['display-name'];
+        }
+
+        let color = "#fff";
+        if (params.tags['color'] !== "") {
+            color = params.tags['color'];
+        }
+
+        let element = document.createElement('div');
+        element.classList.add('user');
+        element.style.color = color;
+        element.innerHTML = str;
+
+        this.overlay.appendChild(element);
     }
 }

@@ -14,7 +14,7 @@ class YehBot {
     }
 
     open() {
-        this.webSocket = new WebSocket('wss://' + this.server + ':' + this.port + '/', 'irc');
+        this.webSocket = new WebSocket(`wss://${this.server}:${this.port}/`, 'irc');
 
         this.webSocket.onmessage = (event) => this.onMessage(event);
         this.webSocket.onerror = (event) => this.onError(event);
@@ -26,12 +26,26 @@ class YehBot {
         let socket = this.webSocket;
 
         if (socket !== null && socket.readyState === 1) {
-            this.log("Connecting and authenticating...");
+            this.log("Authenticating...");
+
 
             socket.send('CAP REQ :twitch.tv/tags twitch.tv/commands twitch.tv/membership');
             socket.send('PASS ' + this.password);
             socket.send('NICK ' + this.username);
+
+            this.join(this.channel);
+        } else {
+            this.log("Error...");
+        }
+    };
+
+    join(channel) {
+        let socket = this.webSocket;
+        if (socket !== null && socket.readyState === 1) {
+            this.channel = channel;
             socket.send('JOIN ' + this.channel);
+
+            this.log("Connecting to channel...");
         }
     };
 
@@ -77,7 +91,7 @@ class YehBot {
         let decode = message.split(' ');
 
         if (message[0] === '@') {
-            let parsedMessage = this.parseMessage(decode);
+            let parsedMessage = this.parsePrivateMessage(decode);
 
             this.log(parsedMessage);
 
@@ -95,7 +109,7 @@ class YehBot {
         }
     };
 
-    parseMessage(messageArray) {
+    parsePrivateMessage(messageArray) {
 
         if (messageArray[2] !== 'PRIVMSG') {
             return null;
@@ -142,8 +156,8 @@ class YehBot {
         let date = new Date();
 
         if (typeof log === 'string') {
-            let div = document.querySelector('.log');
-            div.innerHTML = `${div.innerHTML} ${date.toTimeString()} - ${log} \t\n`;
+            let div = document.querySelector(".log");
+            div.innerHTML = `${div.innerHTML} ${date.toTimeString()} - ${log}<br/>`;
         }
     }
 }

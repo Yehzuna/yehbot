@@ -1,86 +1,90 @@
 body {
-    margin: 0;
-    padding: 0;
-    font-size: 16px;
-    font-family: Roboto, Lato, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-family: Roboto, Lato, Helvetica, Arial, sans-serif;
 }
 
 .wrapper {
-    margin: 0 300px;
+  margin: 0 300px;
 }
 
-.command,
-.chat {
+.left,
+.right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 300px;
+  height: 100%;
+  background: #ccc;
+}
+
+.left {
+  left: 0;
+  iframe {
+    border: none;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.right {
+  right: 0;
+  .command {
+    padding: 16px;
+  }
+  .log {
+    overflow: auto;
+    padding: 16px;
+    font-size: .75em;
+  }
+}
+
+.placeholder {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  &:after {
+    padding-top: 56.25%;
+    display: block;
+    content: '';
+  }
+  .overlay {
     position: absolute;
     top: 0;
     bottom: 0;
-    width: 300px;
-    height: 100%;
-    background: #ccc;
-}
-
-.chat {
     left: 0;
-    iframe {
-        border: none;
-        width: 100%;
-        height: 100%;
-    }
-}
-
-.command {
     right: 0;
-    .log {
-        padding: 20px;
-        font-size: .75em;
-    }
+    background: #000;
+  }
 }
 
 
-.placeholder {
-    display: inline-block;
-    position: relative;
-    width: 100%;
-    &:after {
-        padding-top: 56.25%;
-        display: block;
-        content: '';
-    }
-    .overlay {
-        position: absolute;
-        top: 0;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        background: #000;
-    }
-}
-
-
+// commands
 
 .user {
-    position: absolute;
-    left: 10px;
-    bottom: 10px;
-    animation: show 1s ease-in-out 1 forwards;
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  animation: show 1s ease-in-out 1 forwards;
 }
 
 @keyframes show {
-    0% {
-        transform: translateY(0) translateX(0);
-        opacity: 1;
-    }
-    25% {
-        transform: translateY(-50px) translateX(-5px);
-    }
-    50% {
-        transform: translateY(-100px) translateX(5px);
-    }
-    75% {
-        transform:  translateY(-150px) translateX(-10px);
-    }
-    100% {
-        transform:  translateY(-200px) translateX(10px);
-        opacity: 0;
-    }
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(-50px) translateX(-5px);
+  }
+  50% {
+    transform: translateY(-100px) translateX(5px);
+  }
+  75% {
+    transform: translateY(-150px) translateX(-10px);
+  }
+  100% {
+    transform: translateY(-200px) translateX(10px);
+    opacity: 0;
+  }
 }

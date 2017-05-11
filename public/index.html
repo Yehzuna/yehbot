@@ -9,17 +9,22 @@
 </head>
 <body>
 <div class="wrapper">
-    <div class="chat">
-        <iframe frameborder="0" scrolling="no" id="yehzuna" src="http://www.twitch.tv/yehzuna/chat" height="600" width="350"></iframe>
+    <div class="left">
+        <!--<iframe frameborder="0" scrolling="no" id="yehzuna" src="http://www.twitch.tv/yehzuna/chat" height="600" width="350"></iframe>-->
     </div>
     <div class="placeholder">
         <div class="overlay"></div>
     </div>
-    <div class="command">
-        <button id="button">Test message</button>
-        <div class="log">
+    <div class="right">
+        <div class="command">
+            <div class="row">
+                <input type="text" id="channel" value="#yehzuna" />
+                <button id="connect">Connect</button>
+            </div>
 
+            <button id="test">Test message</button>
         </div>
+        <div class="log"></div>
     </div>
 </div>
 
@@ -27,13 +32,18 @@
 <script src="js/yehbot.js"></script>
 <script>
     let yehBot = new YehBot({
-        channel: '#yehzuna',
-        username: 'yehzuna',
-        password: 'oauth:pg4qy604fxcbwzf7n0sm4yaif6fmqr',
+        //channel: '#yehzuna',
+        username: "yehzuna",
+        password: "oauth:pg4qy604fxcbwzf7n0sm4yaif6fmqr",
     });
 
     $(function () {
-        $('#button').click(function () {
+        $('#connect').click(function () {
+            let channel = $("#channel").val();
+            yehBot.join(channel);
+        });
+
+        $("#test").click(function () {
             yehBot.sendMessage("Test message");
         });
     })

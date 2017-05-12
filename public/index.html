@@ -10,10 +10,10 @@
 <body>
 <div class="wrapper">
     <div class="left">
-        <iframe frameborder="0" scrolling="no" id="yehzuna" src="http://www.twitch.tv/yehzuna/chat" height="600" width="350"></iframe>
+        <!--<iframe frameborder="0" scrolling="no" id="yehzuna" src="http://www.twitch.tv/yehzuna/chat" height="600" width="350"></iframe>-->
     </div>
     <div class="placeholder">
-        <div class="overlay"></div>
+        <!--<div class="overlay"></div>-->
     </div>
     <div class="right">
         <div class="command">
@@ -31,11 +31,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="js/yehbot.js"></script>
 <script>
-    let yehBot = new YehBot({
-        //channel: '#yehzuna',
-        username: "yehzuna",
-        password: "oauth:pg4qy604fxcbwzf7n0sm4yaif6fmqr",
-    });
+    let yehBot = new YehBot("yehzuna", "oauth:pg4qy604fxcbwzf7n0sm4yaif6fmqr");
 
     $(function () {
         $('#connect').click(function () {

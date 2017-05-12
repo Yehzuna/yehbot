@@ -1,12 +1,12 @@
 class YehBot {
-    constructor(options) {
+    constructor(username, password, channel = false) {
 
         this.server = 'irc-ws.chat.twitch.tv';
         this.port = 443;
 
-        this.username = options.username;
-        this.password = options.password;
-        this.channel = options.channel;
+        this.username = username;
+        this.password = password;
+        this.channel = channel;
 
         this.commands = new YehBotCommands();
 
@@ -15,7 +15,6 @@ class YehBot {
 
     open() {
         this.webSocket = new WebSocket(`wss://${this.server}:${this.port}/`, 'irc');
-
         this.webSocket.onmessage = (event) => this.onMessage(event);
         this.webSocket.onerror = (event) => this.onError(event);
         this.webSocket.onclose = () => this.onClose();
@@ -28,29 +27,31 @@ class YehBot {
         if (socket !== null && socket.readyState === 1) {
             this.log("Authenticating...");
 
-
             socket.send('CAP REQ :twitch.tv/tags twitch.tv/commands twitch.tv/membership');
             socket.send('PASS ' + this.password);
             socket.send('NICK ' + this.username);
 
             this.join(this.channel);
         } else {
-            this.log("Error...");
+            this.log("Error.");
         }
     };
 
     join(channel) {
-        let socket = this.webSocket;
-        if (socket !== null && socket.readyState === 1) {
-            this.channel = channel;
-            socket.send('JOIN ' + this.channel);
+        if (this.webSocket !== null && this.webSocket.readyState === 1) {
+            if (channel !== false) {
+                this.channel = channel;
+                this.webSocket.send('JOIN ' + this.channel);
 
-            this.log("Connecting to channel...");
+                this.log(`Connecting to ${this.channel}...`);
+            }
+        } else {
+            this.log("Error.");
         }
     };
 
     onClose() {
-        this.log("Disconnected from the chat server.");
+        this.log("Disconnected from the server.");
 
         this.webSocket.close();
     };
@@ -68,16 +69,16 @@ class YehBot {
     };
 
     sendMessage(message) {
-        this.log("Send PRIVMSG " + message);
+        this.log(`Send PRIVMSG '${message}'`);
 
         this.webSocket.send(`PRIVMSG ${this.channel} :${message}\r\n`);
     };
 
     sendCommand(command, params) {
-        if (typeof this.commands[command] === 'function'){
+        if (typeof this.commands[command] === 'function') {
             this.commands[command](params);
 
-            this.log("Send COMMAND " + command);
+            this.log(`Send PRIVMSG '${command}'`);
         }
     };
 
@@ -88,30 +89,47 @@ class YehBot {
     };
 
     decodeMessage(message) {
-        let decode = message.split(' ');
+        let decode = message.trim().split(' ');
+        console.log(decode);
 
-        if (message[0] === '@') {
+        if (decode[0] === "PING") {
+            this.sendPong(decode[1]);
+
+            return false;
+        }
+
+        if (decode[1] === "JOIN") {
+            this.log(`Connected to ${this.channel}.`);
+
+            return false;
+        }
+
+        if (decode[2] === "GLOBALUSERSTATE") {
+            this.log(`Connected to ${this.server}.`);
+
+            return false;
+        }
+
+        if (message[0] === "@") {
             let parsedMessage = this.parsePrivateMessage(decode);
-
-            this.log(parsedMessage);
 
             if (!parsedMessage) {
                 return false;
             }
 
+            this.log(parsedMessage);
+
             if (parsedMessage['command']) {
                 this.sendCommand(parsedMessage['command'], parsedMessage);
             }
-        }
 
-        if (decode[0] === 'PING') {
-            this.sendPong(decode[1]);
+            return false;
         }
     };
 
     parsePrivateMessage(messageArray) {
 
-        if (messageArray[2] !== 'PRIVMSG') {
+        if (messageArray[2] !== "PRIVMSG") {
             return null;
         }
 
@@ -153,11 +171,11 @@ class YehBot {
     log(log) {
         console.log(log);
 
-        let date = new Date();
+        let date = new Date().toTimeString();
 
         if (typeof log === 'string') {
             let div = document.querySelector(".log");
-            div.innerHTML = `${div.innerHTML} ${date.toTimeString()} - ${log}<br/>`;
+            div.innerHTML = `${div.innerHTML} ${date.split(' ')[0]} - ${log}<br/>`;
         }
     }
 }

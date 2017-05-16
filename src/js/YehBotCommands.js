@@ -1,6 +1,23 @@
 class YehBotCommands {
     constructor() {
         this.overlay = document.querySelector('.overlay');
+
+        this.data = [
+            {
+                name: "Lorem",
+                total: 200
+            }, {
+                name: "Ipsum",
+                total: 100
+            }, {
+                name: "Praesent",
+                total: 100
+            }, {
+                name: "Sollicitudin",
+                total: 100
+            },
+
+        ];
     }
 
     user(params) {
@@ -23,6 +40,20 @@ class YehBotCommands {
         this.overlay.appendChild(element);
     }
 
+    clean() {
+        const data = this.data;
+
+        let li = document.querySelectorAll(".bits li");
+        console.log(li);
+
+        li.forEach(function (li , index) {
+            setTimeout(function () {
+               li.classList.add('clean');
+            }, 1000 * index);
+        });
+    }
+
+
     bits() {
 
         let ul = document.querySelector(".bits");
@@ -32,33 +63,23 @@ class YehBotCommands {
             this.overlay.appendChild(ul);
         }
 
-        let data = [
-            {
-                name: "personne 1",
-                total: 200
-            }, {
-                name: "personne 2",
-                total: 100
-            }, {
-                name: "personne 3",
-                total: 100
-            }, {
-                name: "personne 4",
-                total: 100
-            },
+        const data = this.data;
 
-        ];
+        data.forEach(function (user, index) {
 
-        for (let i = 0; i < data.length; i++) {
             let span = document.createElement('span');
-            span.innerHTML = data[i].name;
+            span.innerHTML = `${index + 1} - ${user.name} (${user.total})`;
 
             let li = document.createElement('li');
             li.appendChild(span);
 
             setTimeout(function () {
                 ul.appendChild(li);
-            }, 1000*i);
-        }
+
+                setTimeout(function () {
+                    li.classList.add('opacity-' + index);
+                }, 1000);
+            }, 1000 * index);
+        });
     }
 }

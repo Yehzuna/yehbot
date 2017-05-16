@@ -44,13 +44,13 @@ class YehBotCommands {
         const data = this.data;
 
         let li = document.querySelectorAll(".bits li");
-        console.log(li);
-
         li.forEach(function (li , index) {
             setTimeout(function () {
                li.classList.add('clean');
             }, 1000 * index);
         });
+
+
     }
 
 
@@ -67,14 +67,13 @@ class YehBotCommands {
 
         data.forEach(function (user, index) {
 
-            let span = document.createElement('span');
-            span.innerHTML = `${index + 1} - ${user.name} (${user.total})`;
+            let span = `<span>${index + 1} - ${user.name} (${user.total})</span>`;
 
             let li = document.createElement('li');
-            li.appendChild(span);
+            li.insertAdjacentHTML('afterbegin', span);
 
             setTimeout(function () {
-                ul.appendChild(li);
+                ul.prependChild(li);
 
                 setTimeout(function () {
                     li.classList.add('opacity-' + index);

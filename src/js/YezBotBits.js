@@ -1,4 +1,4 @@
-class YehBotCommands {
+class YezBotCommands {
     constructor() {
         this.overlay = document.querySelector(".overlay");
 
@@ -28,26 +28,6 @@ class YehBotCommands {
         this.parent = ul;
 
         this.queue = [];
-    }
-
-    user(params) {
-
-        let str = params.user;
-        if (params.tags['display-name'] !== "") {
-            str = params.tags['display-name'];
-        }
-
-        let color = "#fff";
-        if (params.tags['color'] !== "") {
-            color = params.tags['color'];
-        }
-
-        let element = document.createElement('div');
-        element.classList.add('user');
-        element.style.color = color;
-        element.innerHTML = str;
-
-        this.overlay.appendChild(element);
     }
 
     addToQueue(fn, delay = 0) {

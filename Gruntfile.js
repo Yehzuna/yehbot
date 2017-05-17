@@ -19,7 +19,6 @@ module.exports = function(grunt) {
                     spriteLoadPath: 'src/img/',
                     httpGeneratedImagesPath: "../img/",
                     httpFontsPath: "../fonts/",
-                    specify: 'src/scss/yehbot.scss'
                 }
             },
             prod: {
@@ -31,7 +30,6 @@ module.exports = function(grunt) {
                     spriteLoadPath: 'src/img/',
                     httpGeneratedImagesPath: "../img/",
                     httpFontsPath: "../fonts/",
-                    specify: 'src/scss/yehbot.scss',
                     environment: 'production'
                 }
             }
@@ -40,15 +38,15 @@ module.exports = function(grunt) {
             dist: {
                 files: [{
                     src: ['src/js/**'],
-                    dest: 'public/js/yehbot.js',
+                    dest: 'public/js/yezbot.js',
                     filter: 'isFile'
                 }]
             }
         },
         uglify: {
             js: {
-                src: ['public/js/yehbot.js'],
-                dest: 'public/js/yehbot.js'
+                src: ['public/js/yezbot.js'],
+                dest: 'public/js/yezbot.js'
             }
         },
         watch: {

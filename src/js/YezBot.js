@@ -1,4 +1,4 @@
-class YehBot {
+class YezBot {
     constructor(username, password, channel = false) {
 
         this.server = 'irc-ws.chat.twitch.tv';
@@ -8,7 +8,7 @@ class YehBot {
         this.password = password;
         this.channel = channel;
 
-        this.commands = new YehBotCommands();
+        this.commands = new YezBotCommands();
 
         this.open();
     }

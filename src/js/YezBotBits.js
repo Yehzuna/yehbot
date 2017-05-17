@@ -40,11 +40,12 @@ class YezBotBits {
     playQueue() {
         const _self = this;
 
-        console.log(_self.queue.length);
         console.log("playQueue");
 
         if (_self.queue.length > 0) {
             let fn = _self.queue.shift();
+
+            console.log(fn);
 
             setTimeout(function () {
                 fn['fn'].apply();

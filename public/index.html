@@ -24,8 +24,8 @@
 
             <button id="test">Test message</button>
 
-            <button onclick="command.bits()">Add bits</button>
-            <button onclick="command.list()">Refresh list</button>
+            <button onclick="yezbotbits.bits()">Add bits</button>
+            <button onclick="yezbotbits.list()">Refresh list</button>
         </div>
         <div class="log"></div>
     </div>
@@ -34,10 +34,10 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <script src="js/yezbot.js"></script>
 <script>
-    let bits = new YezBotBits();
-    bits.loop();
+    let yezbotbits = new YezBotBits();
+    yezbotbits.loop();
 
-    let yezbot = new YezBot("yehzuna", "oauth:9v4ewc3yo5nyvqtruvqhsf2pb9sbz3");
+    //let yezbot = new YezBot("yehzuna", "oauth:9v4ewc3yo5nyvqtruvqhsf2pb9sbz3");
 
     $(function () {
         $('#connect').click(function () {

@@ -5,19 +5,21 @@ class YezBotBits {
         this.data = [
             {
                 name: "Lorem",
-                total: 200
+                total: 500
             }, {
                 name: "Ipsum",
-                total: 100
+                total: 400
             }, {
                 name: "Praesent",
-                total: 100
+                total: 200
             }, {
                 name: "Sollicitudin",
+                total: 200
+            }, {
+                name: "Pminsfeen",
                 total: 100
-            },
-
-        ];
+            }
+        ].reverse();
 
         let ul = document.querySelector(".bits");
         if (ul === null) {
@@ -30,17 +32,22 @@ class YezBotBits {
         this.queue = [];
     }
 
-    addToQueue(fn, delay = 0) {
-        this.queue.push({
-            fn: fn,
-            delay: delay
-        });
+    addToQueue(fn, delay = 0, push = true) {
+        if (push) {
+            this.queue.push({
+                fn: fn,
+                delay: delay
+            });
+        } else {
+            this.queue.unshift({
+                fn: fn,
+                delay: delay
+            });
+        }
     }
 
     playQueue() {
         const _self = this;
-
-        console.log("playQueue");
 
         if (_self.queue.length > 0) {
             let fn = _self.queue.shift();
@@ -73,19 +80,21 @@ class YezBotBits {
     clean() {
         const _self = this;
 
-        let els = document.querySelectorAll(".bits li");
-        els = Array.prototype.slice.apply(els).reverse();
+        _self.addToQueue(function () {
+            let els = document.querySelectorAll(".bits li");
+            els = Array.prototype.slice.apply(els);
+            console.log(els);
 
-        els.forEach(function (li) {
-            _self.addToQueue(function () {
-                li.classList.add('clean');
-            }, 500);
-        });
+            els.forEach(function (li) {
+                _self.addToQueue(function () {
+                    li.remove();
+                }, 300, false);
 
-        els.forEach(function (li) {
-            _self.addToQueue(function () {
-                li.remove();
+                _self.addToQueue(function () {
+                    li.classList.add('clean');
+                }, 0, false);
             });
+
         });
     }
 
@@ -106,6 +115,10 @@ class YezBotBits {
         _self.addToQueue(function () {
             ul.insertBefore(li, ul.firstChild);
         }, 1000);
+
+        _self.addToQueue(function () {
+            console.log('delay');
+        }, 3000);
     }
 
     list() {
@@ -124,5 +137,9 @@ class YezBotBits {
                 ul.insertBefore(li, ul.firstChild);
             }, 1000);
         });
+
+        _self.addToQueue(function () {
+            console.log('delay');
+        }, 3000);
     }
 }

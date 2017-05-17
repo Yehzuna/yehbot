@@ -10,7 +10,7 @@
 <body>
 <div class="wrapper">
     <div class="left">
-        <iframe frameborder="0" scrolling="no" id="jvtv" src="http://www.twitch.tv/jvtv/chat" height="600" width="350"></iframe>
+        <!--<iframe frameborder="0" scrolling="no" id="jvtv" src="http://www.twitch.tv/jvtv/chat" height="600" width="350"></iframe>-->
     </div>
     <div class="placeholder">
         <div class="overlay"></div>
@@ -23,6 +23,9 @@
             </div>
 
             <button id="test">Test message</button>
+
+            <button onclick="command.bits()">Add bits</button>
+            <button onclick="command.list()">Refresh list</button>
         </div>
         <div class="log"></div>
     </div>
@@ -32,9 +35,10 @@
 <script src="js/yehbot.js"></script>
 <script>
     let command = new YehBotCommands();
-    command.bits();
+    command.loop();
 
 
+    /*
     let yehBot = new YehBot("yehzuna", "oauth:9v4ewc3yo5nyvqtruvqhsf2pb9sbz3");
 
     $(function () {
@@ -47,6 +51,7 @@
             yehBot.sendMessage("Bonjout !");
         });
     });
+    */
 
 </script>
 

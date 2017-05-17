@@ -1,4 +1,4 @@
-class YezBotCommands {
+class YezBotBits {
     constructor() {
         this.overlay = document.querySelector(".overlay");
 

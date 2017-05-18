@@ -92,7 +92,7 @@ export class YezBotConnect {
 
     decodeMessage(message) {
         let decode = message.trim().split(' ');
-        console.log(decode);
+        //console.log(decode);
 
         if (decode[0] === "PING") {
             this.sendPong(decode[1]);
@@ -122,7 +122,13 @@ export class YezBotConnect {
             this.log(parsedMessage);
 
             if (parsedMessage['command']) {
-                this.sendCommand(parsedMessage['command'], parsedMessage);
+                this.log('command ' + parsedMessage['command']);
+                //this.sendCommand(parsedMessage['command'], parsedMessage);
+            }
+
+            if (parsedMessage['cheer'] > 0) {
+                this.log('cheer ' + parsedMessage['cheer']);
+                //this.sendCommand(parsedMessage['command'], parsedMessage);
             }
 
             return false;
@@ -162,14 +168,28 @@ export class YezBotConnect {
             command = message.slice(1).trim();
         }
 
+        // cheer
+        let cheer = 0;
+        let match;
+        const pattern = /cheer(\d+)/g;
+        while (match = pattern.exec(message)) {
+            cheer += parseInt(match[1]);
+        }
+
         // user
-        let userArray = messageArray[1].split('!');
-        let user = userArray[0].slice(1).trim();
+        let user = "Anonymous";
+        if (tags['display-name'] !== "") {
+            user = tags['display-name'];
+        } else {
+            let userArray = messageArray[1].split('!');
+            user = userArray[0].slice(1).trim();
+        }
 
         return {
             channel: messageArray[3],
             message: message,
             command: command,
+            cheer: cheer,
             tags: tags,
             user: user,
             original: messageArray

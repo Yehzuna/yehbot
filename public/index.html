@@ -10,7 +10,7 @@
 <body>
 <div class="wrapper">
     <div class="left">
-        <!--<iframe frameborder="0" scrolling="no" id="jvtv" src="http://www.twitch.tv/jvtv/chat" height="600" width="350"></iframe>-->
+        <!--<iframe frameborder="0" scrolling="no" id="jvtv" src="http://www.twitch.tv/monsieursapin/chat" height="600" width="350"></iframe>-->
     </div>
     <div class="placeholder">
         <div class="overlay"></div>
@@ -18,7 +18,7 @@
     <div class="right">
         <div class="command">
             <div class="row">
-                <input type="text" id="channel" value="#jvtv" />
+                <input type="text" id="channel" value="#camak" />
                 <button id="connect">Connect</button>
             </div>
 
@@ -35,13 +35,24 @@
 <script src="js/yezbot.js"></script>
 <script>
     $(function () {
+        /*
+        var message = "cheer200 I wonder if that new subclass for the warlock replaces sunsinger or just a new subclass?? cheer100";
+        var cheer = 0;
+        var match;
+        var pattern = /cheer(\d+)/g;
+        while (match = pattern.exec(message)) {
+            cheer += parseInt(match[1]);
+        }
+        console.log(cheer);
+        */
+
         $('#connect').click(function () {
             let channel = $("#channel").val();
             yezbot.join(channel);
         });
 
         $("#test").click(function () {
-            yezbot.sendMessage("Bonjout !");
+            yezbot.sendMessage("Bonjour !");
         });
     });
 </script>

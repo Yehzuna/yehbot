@@ -1,7 +1,7 @@
 <?php
 
-//error_reporting(E_ALL);
-//ini_set("display_errors", 1);
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
 
 /**
  * Class Api
@@ -19,15 +19,14 @@ class Api
      */
     public function __construct()
     {
-
         if ($_SERVER["REQUEST_METHOD"] == "GET") {
-
+            $this->getBits();
         }
 
-        if ($_SERVER["REQUEST_METHOD"] != "POST") {
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $request = file_get_contents("php://input");
             if ($json = json_decode($request, true)) {
-
+                $this->setBits($json);
             }
         }
 
@@ -40,18 +39,18 @@ class Api
      */
     private function setBits($data)
     {
-        if (!file_put_contents(self::PATH . "config.json", json_encode($data))) {
+        if (!file_put_contents(self::PATH . "test.json", json_encode($data))) {
             $this->response(500, "Internal Server Error");
         }
 
         $this->response(204, "No Content");
     }
 
-    private function getBits($data)
+    private function getBits()
     {
-        if (!file_get_contents(self::PATH . "config.json")) {
-            echo json_decode();
+        if ($json = file_get_contents(self::PATH . "test.json")) {
 
+            echo $json;
             $this->response(200, "Ok");
         }
 

@@ -1,27 +1,11 @@
 import {YezBotQueue} from "./YezBotQueue";
+import {YezBotData} from "./YezBotData";
 
 export class YezBotBits extends YezBotQueue {
     constructor() {
         super();
 
-        this.data = [
-            {
-                name: "Lorem",
-                total: 500
-            }, {
-                name: "Ipsum",
-                total: 400
-            }, {
-                name: "Praesent",
-                total: 200
-            }, {
-                name: "Sollicitudin",
-                total: 200
-            }, {
-                name: "Pminsfeen",
-                total: 100
-            }
-        ].reverse();
+        this.data = [];
 
         this.overlay = document.querySelector(".overlay");
 
@@ -29,9 +13,17 @@ export class YezBotBits extends YezBotQueue {
         if (ul === null) {
             ul = document.createElement('ul');
             ul.classList.add('bits');
-            this.overlay.appendChild(ul);
+            _self.overlay.appendChild(ul);
         }
+
         this.parent = ul;
+    }
+
+    refresh() {
+        const _self = this;
+        YezBotData.getData().then(function (data) {
+            _self.data = JSON.parse(data);
+        });
     }
 
     clean() {

@@ -34,12 +34,11 @@ module.exports = function(grunt) {
                 }
             }
         },
-        concat: {
+        rollup: {
             dist: {
                 files: [{
-                    src: ['src/js/**'],
+                    src: ['src/js/YezBot.js'],
                     dest: 'public/js/yezbot.js',
-                    filter: 'isFile'
                 }]
             }
         },
@@ -74,13 +73,14 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-compass');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-watch');
+    grunt.loadNpmTasks('grunt-rollup');
 
     grunt.registerTask('default', ['watch']);
 
     grunt.registerTask('dev', [
         'clean',
         'compass:dev',
-        'concat'
+        'rollup'
     ]);
 
     grunt.registerTask('prod', [

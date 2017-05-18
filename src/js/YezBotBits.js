@@ -1,6 +1,8 @@
-class YezBotBits {
+import {YezBotQueue} from "./YezBotQueue";
+
+export class YezBotBits extends YezBotQueue {
     constructor() {
-        this.overlay = document.querySelector(".overlay");
+        super();
 
         this.data = [
             {
@@ -21,6 +23,8 @@ class YezBotBits {
             }
         ].reverse();
 
+        this.overlay = document.querySelector(".overlay");
+
         let ul = document.querySelector(".bits");
         if (ul === null) {
             ul = document.createElement('ul');
@@ -28,53 +32,6 @@ class YezBotBits {
             this.overlay.appendChild(ul);
         }
         this.parent = ul;
-
-        this.queue = [];
-    }
-
-    addToQueue(fn, delay = 0, push = true) {
-        if (push) {
-            this.queue.push({
-                fn: fn,
-                delay: delay
-            });
-        } else {
-            this.queue.unshift({
-                fn: fn,
-                delay: delay
-            });
-        }
-    }
-
-    playQueue() {
-        const _self = this;
-
-        if (_self.queue.length > 0) {
-            let fn = _self.queue.shift();
-
-            console.log(fn);
-
-            setTimeout(function () {
-                fn['fn'].apply();
-
-                _self.playQueue();
-            }, fn['delay']);
-        } else {
-            _self.loop();
-        }
-    }
-
-    loop() {
-        const _self = this;
-
-        let loop = setInterval(function () {
-            console.log("loop");
-
-            if (_self.queue.length > 0) {
-                clearInterval(loop);
-                _self.playQueue();
-            }
-        }, 2000);
     }
 
     clean() {

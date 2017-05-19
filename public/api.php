@@ -63,6 +63,9 @@ class Api
         $this->response(204, "No Content");
     }
 
+    /**
+     *
+     */
     private function getBits()
     {
         if ($json = file_get_contents(self::PATH . "test.json")) {

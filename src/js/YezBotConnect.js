@@ -1,4 +1,5 @@
 import {YezBotCommands} from "./YezBotCommands";
+import {YezBotBits} from "./YezBotBits";
 
 export class YezBotConnect {
     constructor(username, password, channel = false) {
@@ -11,6 +12,7 @@ export class YezBotConnect {
         this.channel = channel;
 
         this.commands = new YezBotCommands();
+        this.bits = new YezBotBits();
 
         this.open();
     }
@@ -84,6 +86,19 @@ export class YezBotConnect {
         }
     };
 
+    sendBits(params) {
+        this.bits.add({
+            id: params.id,
+            name: params.user,
+            total: params.cheer
+        });
+
+        this.bits.refresh();
+
+        this.log(`Send Bits ${params.user}/${params.cheer}`);
+
+    };
+
     sendPong(data) {
         this.log("Send PONG");
 
@@ -127,8 +142,7 @@ export class YezBotConnect {
             }
 
             if (parsedMessage['cheer'] > 0) {
-                this.log('cheer ' + parsedMessage['cheer']);
-                //this.sendCommand(parsedMessage['command'], parsedMessage);
+                this.sendBits(parsedMessage);
             }
 
             return false;
@@ -192,6 +206,7 @@ export class YezBotConnect {
             cheer: cheer,
             tags: tags,
             user: user,
+            id: tags['user-id'] ,
             original: messageArray
         };
     };

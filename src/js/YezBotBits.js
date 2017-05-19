@@ -13,16 +13,22 @@ export class YezBotBits extends YezBotQueue {
         if (ul === null) {
             ul = document.createElement('ul');
             ul.classList.add('bits');
-            _self.overlay.appendChild(ul);
+            this.overlay.appendChild(ul);
         }
 
         this.parent = ul;
+
+
+        this.loop();
+
+        this.refresh();
     }
 
     refresh() {
         const _self = this;
         YezBotData.getData().then(function (data) {
             _self.data = JSON.parse(data);
+            _self.list();
         });
     }
 
@@ -47,13 +53,11 @@ export class YezBotBits extends YezBotQueue {
         });
     }
 
-    bits() {
+    add(user) {
         const _self = this;
         const ul = this.parent;
-        const user = {
-            name: "Sollicitudin",
-            total: 100
-        };
+
+        YezBotData.setData(user);
 
         let span = `<span>${user.name} a donné ${user.total} bits !</span>`;
         let li = document.createElement('li');

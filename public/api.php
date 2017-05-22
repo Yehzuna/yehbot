@@ -39,7 +39,7 @@ class Api
      */
     private function setBits($data)
     {
-        if (!$json = file_get_contents(self::PATH . "test.json")) {
+        if ($json = file_get_contents(self::PATH . "test.json")) {
             $users = json_decode($json, true);
         } else {
             $users = [];

@@ -40,12 +40,13 @@ class Api
     private function setBits($data)
     {
         if (!$json = file_get_contents(self::PATH . "test.json")) {
-            $this->response(500, "Internal Server Error");
+            $users = json_decode($json, true);
+        } else {
+            $users = [];
         }
 
-        $users = json_decode($json, true);
         $add = false;
-        foreach ($users as $user) {
+        foreach ($users as &$user) {
             if ($user["id"] == $data["id"]) {
                 $user["total"] += $data["total"];
                 $add = true;

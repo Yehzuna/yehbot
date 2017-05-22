@@ -13,8 +13,8 @@ document.querySelector("#join").addEventListener('click', function () {
 document.querySelector("#add").addEventListener('click', function () {
     yezbot.sendBits({
         id: 123,
-        name: "Lorem",
-        total: 100
+        user: "Lorem",
+        cheer: 100
     });
 });
 

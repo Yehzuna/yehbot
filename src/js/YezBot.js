@@ -1,6 +1,9 @@
 import {YezBotConnect} from "./YezBotConnect";
+import {YezBotEmotes} from "./YezBotEmotes";
 
+let emote = new YezBotEmotes();
 
+/*
 let yezbot = new YezBotConnect("yezbot", "oauth:4205clljyhax1at6e37bn80b954j80");
 
 document.querySelector("#join").addEventListener('click', function () {
@@ -21,3 +24,4 @@ document.querySelector("#add").addEventListener('click', function () {
 document.querySelector("#refresh").addEventListener('click', function () {
     yezbot.bits.refresh();
 });
+    */

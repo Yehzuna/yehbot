@@ -4,23 +4,12 @@ export class YezBotEmotes {
     constructor() {
         this.overlay = document.querySelector(".overlay");
 
-        let regex = [];
-        let images = {};
+        let regex = {};
 
-        this.list = YezBotData.getEmotes().then(function (data) {
+        this.list = YezBotData.setData("Un test d'émote <3 <3 KappaRoss WutFace Kappa Kappa MrDestructoid").then(function (json) {
+
+            const data = JSON.parse(json);
             console.log(data);
-
-            /*
-            let data = JSON.parse(json);
-
-            data.emoticons.forEach(function (emote) {
-                regex.push(emote.regex);
-                images[emote.regex] = emote.images[0].url;
-            });
-
-            console.log(regex.length);
-            console.log(images.length);
-            */
         });
     }
 

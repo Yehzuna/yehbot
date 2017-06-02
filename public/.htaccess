@@ -1,4 +1,7 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
-    RewriteRule ^api/(.*)/(.*)$ api.php?service=$1&channel=$2 [L]
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^api(.*)$ api.php?_url=$1 [QSA,L]
+    RewriteRule ^bits/(.*)$ bits.html [QSA,L]
 </IfModule>

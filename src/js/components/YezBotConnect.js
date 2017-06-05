@@ -1,5 +1,6 @@
 import {YezBotCommands} from "./YezBotCommands";
 import {YezBotBits} from "./YezBotBits";
+import {YezBotEmotes} from "./YezBotEmotes";
 
 export class YezBotConnect {
     constructor(username, password, channel = false) {
@@ -13,6 +14,7 @@ export class YezBotConnect {
 
         this.commands = new YezBotCommands();
         this.bits = new YezBotBits();
+        this.emotes = new YezBotEmotes();
 
         this.open();
     }
@@ -144,6 +146,8 @@ export class YezBotConnect {
             if (parsedMessage['cheer'] > 0) {
                 this.sendBits(parsedMessage);
             }
+
+            this.emotes.sendEmotes(parsedMessage['message']);
 
             return false;
         }

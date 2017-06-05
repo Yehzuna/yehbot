@@ -28,16 +28,16 @@ class Api
             $request = file_get_contents("php://input");
             if ($json = json_decode($request, true)) {
                 //$this->setBits($json);
-                $this->getImages($json);
+                $this->getEmotes($json);
             }
         }
 
         $this->response(401, "Unauthorized");
     }
 
-    private function getImages($string)
+    private function getEmotes($string)
     {
-        $data = $this->getEmotes();
+        $data = $this->getEmotesList();
 
         $string = htmlspecialchars($string);
         //var_dump($string);
@@ -64,7 +64,7 @@ class Api
 
     }
 
-    private function getEmotes()
+    private function getEmotesList()
     {
         $file = self::PATH . "emotes.json";
 

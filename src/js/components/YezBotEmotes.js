@@ -3,8 +3,10 @@ import {YezBotData} from "./YezBotData";
 export class YezBotEmotes {
     constructor() {
         this.overlay = document.querySelector(".overlay");
+    }
 
-        this.list = YezBotData.setData("Un test d'émote <3 <3 KappaRoss WutFace Kappa Kappa MrDestructoid").then((json) => {
+    sendEmotes(message) {
+        YezBotData.getEmotes(message).then((json) => {
 
             const data = JSON.parse(json);
             console.log(data);
@@ -20,7 +22,6 @@ export class YezBotEmotes {
         element.src = `http://static-cdn.jtvnw.net/emoticons/v1/${id}/1.0`;
         element.classList.add('emote');
         element.classList.add('bounce-in-out');
-
 
         const delay = Math.floor((Math.random() * 5));
         element.classList.add(`delay-${delay}`);

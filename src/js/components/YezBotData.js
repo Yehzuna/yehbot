@@ -41,6 +41,27 @@ export class YezBotData {
         });
     }
 
+    static getEmotes(data) {
+        return new Promise(function (resolve, reject) {
+            const request = new XMLHttpRequest();
+            request.open('POST', "api/emotes/channel", true);
+            request.setRequestHeader("Content-Type", "application/json");
+
+            request.onload = function () {
+                if (request.status === 200) {
+                    resolve(request.response);
+                } else {
+                    reject(Error('Error' + request.statusText));
+                }
+            };
+            request.onerror = function () {
+                reject(Error('There was a network error.'));
+            };
+
+            request.send(JSON.stringify(data));
+        });
+    }
+
 
     static getEmotes() {
         let index = 0;

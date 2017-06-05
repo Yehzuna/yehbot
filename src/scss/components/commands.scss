@@ -1,0 +1,28 @@
+.user {
+  position: absolute;
+  left: 10px;
+  bottom: 10px;
+  animation: show 1s ease-in-out 1 forwards;
+  color: #fff;
+  font-weight: bold;
+}
+
+@keyframes show {
+  0% {
+    transform: translateY(0) translateX(0);
+    opacity: 1;
+  }
+  25% {
+    transform: translateY(-50px) translateX(-5px);
+  }
+  50% {
+    transform: translateY(-100px) translateX(5px);
+  }
+  75% {
+    transform: translateY(-150px) translateX(-10px);
+  }
+  100% {
+    transform: translateY(-200px) translateX(10px);
+    opacity: 0;
+  }
+}

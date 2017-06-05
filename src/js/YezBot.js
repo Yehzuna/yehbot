@@ -1,5 +1,5 @@
-import {YezBotConnect} from "./YezBotConnect";
-import {YezBotEmotes} from "./YezBotEmotes";
+import {YezBotConnect} from "./components/YezBotConnect";
+import {YezBotEmotes} from "./components/YezBotEmotes";
 
 let emote = new YezBotEmotes();
 

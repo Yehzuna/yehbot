@@ -1,0 +1,51 @@
+.bits {
+  position: absolute;
+  left: 0;
+  top: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow: hidden;
+  width: 300px;
+  li {
+    span {
+      display: inline-block;
+      padding: 5px 10px;
+      background: rgba(0, 0 , 0, .3);
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+
+    margin-bottom: 5px;
+    color: #fff;
+    font-weight: bold;
+
+    opacity: 0;
+    transform: translateX(-100%);
+    animation: translate 1s ease-in-out 1 forwards;
+    transition: all 2s;
+
+    @for $i from 1 to 6 {
+      &:nth-child(#{$i}) {
+        opacity: (1.2 - ($i * .2));
+      }
+    }
+
+    &.clean {
+      transition: all .5s;
+      opacity: 0;
+    }
+  }
+}
+
+@keyframes translate {
+  0% {
+    transform: translateX(-100%);
+  }
+  70% {
+    transform: translateX(5%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

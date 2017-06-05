@@ -1,0 +1,64 @@
+.emote {
+  position: absolute;
+  opacity: 0;
+  animation-duration: 3s;
+  animation-name: bounceInOut;
+}
+
+@for $i from 0 through 5 {
+  .delay-#{$i} {
+    animation-delay: #{$i*.5}s;
+  }
+}
+
+@for $i from 0 through 5 {
+  .duration-#{$i} {
+    animation-duration: #{$i*.5+2}s;
+  }
+}
+
+@keyframes bounceInOut {
+  from, 10%, 20%, 30%, 40%, 50%, 80%, 90%, to {
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+
+  0% {
+    opacity: 0;
+    transform: scale3d(.3, .3, .3);
+  }
+
+  10% {
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  20% {
+    transform: scale3d(.9, .9, .9);
+  }
+
+  30% {
+    opacity: 1;
+    transform: scale3d(1.03, 1.03, 1.03);
+  }
+
+  40% {
+    transform: scale3d(.97, .97, .97);
+  }
+
+  50% {
+    transform: scale3d(1, 1, 1);
+  }
+
+  80% {
+    transform: scale3d(.9, .9, .9);
+  }
+
+  90% {
+    opacity: 1;
+    transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  to {
+    opacity: 0;
+    transform: scale3d(.3, .3, .3);
+  }
+}

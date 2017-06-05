@@ -12,6 +12,7 @@ module.exports = function(grunt) {
         compass: {
             dev: {
                 options: {
+                    specify: 'src/scss/*.scss',
                     sassDir: 'src/scss/',
                     cssDir: 'public/css/',
                     imagesDir: 'public/img/',
@@ -37,8 +38,11 @@ module.exports = function(grunt) {
         rollup: {
             dist: {
                 files: [{
-                    src: ['src/js/YezBot.js'],
-                    dest: 'public/js/yezbot.js',
+                    expand: true,
+                    cwd: 'src/js/',
+                    src: '*',
+                    dest: 'public/js/',
+                    filter: 'isFile'
                 }]
             }
         },
@@ -48,23 +52,6 @@ module.exports = function(grunt) {
                 dest: 'public/js/yezbot.js'
             }
         },
-        watch: {
-            css: {
-                files: ['src/**/*.scss'],
-                tasks: ['compass:dev']
-            },
-            img: {
-                files: [
-                    'src/**/*.jpg',
-                    'src/**/*.png'
-                ],
-                tasks: ['copy']
-            },
-            js: {
-                files: ['src/**/*.js'],
-                tasks: ['concat']
-            }
-        }
     });
 
     grunt.loadNpmTasks('grunt-contrib-clean');

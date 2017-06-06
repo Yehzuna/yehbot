@@ -3,7 +3,7 @@ import {YezBotBits} from "./YezBotBits";
 import {YezBotEmotes} from "./YezBotEmotes";
 
 export class YezBotConnect {
-    constructor(username, password, channel = false) {
+    constructor(username, password, channel = false, debug = false) {
 
         this.server = 'irc-ws.chat.twitch.tv';
         this.port = 443;
@@ -11,6 +11,7 @@ export class YezBotConnect {
         this.username = username;
         this.password = password;
         this.channel = channel;
+        this.debug = debug;
 
         //this.commands = new YezBotCommands();
         //this.bits = new YezBotBits();
@@ -47,9 +48,9 @@ export class YezBotConnect {
         if (this.webSocket !== null && this.webSocket.readyState === 1) {
             if (channel !== false) {
                 this.channel = channel;
-                this.webSocket.send('JOIN ' + this.channel);
+                this.webSocket.send('JOIN #' + this.channel);
 
-                this.log(`Connecting to ${this.channel}...`);
+                this.log(`Connecting to #${this.channel}...`);
             }
         } else {
             this.log("Error.");
@@ -77,7 +78,7 @@ export class YezBotConnect {
     sendMessage(message) {
         this.log(`Send PRIVMSG '${message}'`);
 
-        this.webSocket.send(`PRIVMSG ${this.channel} :${message}\r\n`);
+        this.webSocket.send(`PRIVMSG #${this.channel} :${message}\r\n`);
     };
 
     sendCommand(command, params) {
@@ -118,7 +119,7 @@ export class YezBotConnect {
         }
 
         if (decode[1] === "JOIN") {
-            this.log(`Connected to ${this.channel}.`);
+            this.log(`Connected to #${this.channel}.`);
 
             return false;
         }
@@ -218,11 +219,13 @@ export class YezBotConnect {
     log(log) {
         console.log(log);
 
-        let date = new Date().toTimeString();
+        if(this.debug) {
+            let date = new Date().toTimeString();
 
-        if (typeof log === 'string') {
-            let div = document.querySelector(".log");
-            div.innerHTML = `${div.innerHTML} ${date.split(' ')[0]} - ${log}<br/>`;
+            if (typeof log === 'string') {
+                let div = document.querySelector(".log");
+                div.innerHTML = `${div.innerHTML} ${date.split(' ')[0]} - ${log}<br/>`;
+            }
         }
     }
 }

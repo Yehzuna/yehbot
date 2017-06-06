@@ -1,14 +1,19 @@
 export class YezBotData {
+    constructor(channel) {
+        //this.path = "http://yehzuna.byethost8.com";
+        this.path = "http://yezbot.local";
+    }
+
     static getBits(channel = "") {
-        return YezBotData.get(`http://yezbot.local/api/bits/${channel}`);
+        return YezBotData.get(`${this.path}/api/bits/${channel}`);
     }
 
     static setBits(channel = "", data) {
-        return YezBotData.post(`http://yezbot.local/api/bits/${channel}`, data);
+        return YezBotData.post(`${this.path}/api/bits/${channel}`, data);
     }
 
     static getEmotes(channel, data) {
-        return YezBotData.post(`http://yezbot.local/api/emotes/${channel}`, data);
+        return YezBotData.post(`${this.path}/api/emotes/${channel}`, data);
     }
 
     static get(url) {

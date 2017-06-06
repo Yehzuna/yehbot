@@ -1,8 +1,6 @@
 import {YezBotConnect} from "./components/YezBotConnect";
-import {YezBotEmotes} from "./components/YezBotEmotes";
-
 
 const path = window.location.pathname;
+const parse = path.substr(1).split('/');
 
-let emote = new YezBotEmotes("jvtv");
-emote.sendEmotes("test Kappa");
+const yezbot = new YezBotConnect("yezbot", "oauth:4205clljyhax1at6e37bn80b954j80", parse[1]);

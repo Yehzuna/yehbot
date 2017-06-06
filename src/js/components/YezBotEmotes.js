@@ -7,8 +7,9 @@ export class YezBotEmotes {
     }
 
     sendEmotes(message) {
-        YezBotData.getEmotes(this.channel, message).then((json) => {
+        console.log(message)
 
+        YezBotData.getEmotes(this.channel, message).then((json) => {
             const data = JSON.parse(json);
             console.log(data);
 

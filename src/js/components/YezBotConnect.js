@@ -12,9 +12,9 @@ export class YezBotConnect {
         this.password = password;
         this.channel = channel;
 
-        this.commands = new YezBotCommands();
-        this.bits = new YezBotBits();
-        this.emotes = new YezBotEmotes();
+        //this.commands = new YezBotCommands();
+        //this.bits = new YezBotBits();
+        this.emotes = new YezBotEmotes(channel);
 
         this.open();
     }

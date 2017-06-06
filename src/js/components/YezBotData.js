@@ -1,9 +1,20 @@
 export class YezBotData {
+    static getBits(channel = "") {
+        return YezBotData.get(`http://yezbot.local/api/bits/${channel}`);
+    }
 
-    static getData() {
+    static setBits(channel = "", data) {
+        return YezBotData.post(`http://yezbot.local/api/bits/${channel}`, data);
+    }
+
+    static getEmotes(channel, data) {
+        return YezBotData.post(`http://yezbot.local/api/emotes/${channel}`, data);
+    }
+
+    static get(url) {
         return new Promise(function (resolve, reject) {
             const request = new XMLHttpRequest();
-            request.open('GET', "api.php", true);
+            request.open('GET', url, true);
 
             request.onload = function () {
                 if (request.status === 200) {
@@ -20,10 +31,10 @@ export class YezBotData {
         });
     }
 
-    static setData(data) {
+    static post(url, data) {
         return new Promise(function (resolve, reject) {
             const request = new XMLHttpRequest();
-            request.open('POST', "api.php", true);
+            request.open('POST', url, true);
             request.setRequestHeader("Content-Type", "application/json");
 
             request.onload = function () {
@@ -41,28 +52,7 @@ export class YezBotData {
         });
     }
 
-    static getEmotes(data) {
-        return new Promise(function (resolve, reject) {
-            const request = new XMLHttpRequest();
-            request.open('POST', "api/emotes/channel", true);
-            request.setRequestHeader("Content-Type", "application/json");
-
-            request.onload = function () {
-                if (request.status === 200) {
-                    resolve(request.response);
-                } else {
-                    reject(Error('Error' + request.statusText));
-                }
-            };
-            request.onerror = function () {
-                reject(Error('There was a network error.'));
-            };
-
-            request.send(JSON.stringify(data));
-        });
-    }
-
-
+    /*
     static getEmotes() {
         let index = 0;
         const timeout = 10000;
@@ -86,4 +76,5 @@ export class YezBotData {
             document.getElementsByTagName('head')[0].appendChild(script);
         });
     }
+    */
 }

@@ -1,0 +1,15 @@
+html,
+body {
+  position: relative;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}

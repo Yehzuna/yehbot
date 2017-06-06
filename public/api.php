@@ -3,8 +3,6 @@
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
-var_dump($_REQUEST);
-
 /**
  * Class Api
  */
@@ -15,27 +13,58 @@ class Api
      */
     const PATH = "data/";
 
+    private $channel;
+
     /**
      * Api constructor.
      */
     public function __construct()
     {
-        if ($_SERVER["REQUEST_METHOD"] == "GET") {
-            $this->getBits();
+        if(!$request = $this->parseUrl($_REQUEST['_url'])) {
+            $this->response(400, "Bad Request");
         }
 
+        if ($_SERVER["REQUEST_METHOD"] != "GET" && $_SERVER["REQUEST_METHOD"] != "POST") {
+            $this->response(401, "Unauthorized");
+        }
+
+        $data = false;
+
+        $method = "get$request";
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            $request = file_get_contents("php://input");
-            if ($json = json_decode($request, true)) {
-                //$this->setBits($json);
-                $this->getEmotes($json);
+            $method = "set$request";
+
+            $json = file_get_contents("php://input");
+            $data = json_decode($json, true);
+        }
+
+        //var_dump($data);
+        //var_dump($method);
+
+        if (method_exists("Api", $method)) {
+            if ($data) {
+                $this->$method($data);
+            } else {
+                $this->$method();
             }
         }
 
-        $this->response(401, "Unauthorized");
+        $this->response(400, "Bad Request");
     }
 
-    private function getEmotes($string)
+    private function parseUrl($url)
+    {
+        if(preg_match("/^\/([a-z]+)\/([a-z0-9]+)$/", $url, $matches)) {
+
+            $this->channel = $matches[2];
+
+            return ucfirst($matches[1]);
+        }
+
+        return false;
+    }
+
+    private function setEmotes($string)
     {
         $data = $this->getEmotesList();
 
@@ -61,7 +90,6 @@ class Api
 
         echo json_encode($list);
         $this->response(200, "Ok");
-
     }
 
     private function getEmotesList()

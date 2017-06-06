@@ -26,7 +26,7 @@ export class YezBotBits extends YezBotQueue {
 
     refresh() {
         const _self = this;
-        YezBotData.getData().then(function (data) {
+        YezBotData.getBits().then(function (data) {
             _self.data = JSON.parse(data);
             _self.list();
         });
@@ -57,7 +57,7 @@ export class YezBotBits extends YezBotQueue {
         const _self = this;
         const ul = this.parent;
 
-        YezBotData.setData(user);
+        YezBotData.setBits(user);
 
         let span = `<span>${user.name} a donné ${user.total} bits !</span>`;
         let li = document.createElement('li');

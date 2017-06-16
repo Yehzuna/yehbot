@@ -56,30 +56,4 @@ export class YezBotData {
             request.send(JSON.stringify(data));
         });
     }
-
-    /*
-    static getEmotes() {
-        let index = 0;
-        const timeout = 10000;
-        const url = "https://api.twitch.tv/kraken/chat/emoticon_images?client_id=5enpkcr8pv8n4b84d60nm6tt2w07q4";
-
-        return new Promise((resolve, reject) => {
-            const callback = '__callback';
-            const timeoutID = window.setTimeout(() => {
-                reject(new Error('Request timeout.'));
-            }, timeout);
-
-            window[callback] = response => {
-                window.clearTimeout(timeoutID);
-                resolve(response.data);
-            };
-
-            const script = document.createElement('script');
-            script.type = 'text/javascript';
-            script.async = true;
-            script.src = url + (url.indexOf('?') === -1 ? '?' : '&') + 'callback=' + callback;
-            document.getElementsByTagName('head')[0].appendChild(script);
-        });
-    }
-    */
 }

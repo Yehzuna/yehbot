@@ -124,7 +124,9 @@ class Api
      */
     private function setBits($data)
     {
-        if ($json = file_get_contents(self::PATH . "test.json")) {
+        $file = self::PATH . "bits.{$this->channel}.json";
+
+        if ($json = file_get_contents($file)) {
             $users = json_decode($json, true);
         } else {
             $users = [];
@@ -142,7 +144,7 @@ class Api
             $users[] = $data;
         }
 
-        if (!file_put_contents(self::PATH . "test.json", json_encode($users))) {
+        if (!file_put_contents($file, json_encode($users))) {
             $this->response(500, "Internal Server Error");
         }
 
@@ -154,7 +156,9 @@ class Api
      */
     private function getBits()
     {
-        if ($json = file_get_contents(self::PATH . "test.json")) {
+        $file = self::PATH . "bits.{$this->channel}.json";
+
+        if ($json = file_get_contents($file)) {
 
             echo $json;
             $this->response(200, "Ok");

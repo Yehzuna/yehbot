@@ -71,7 +71,6 @@
   animation: bounce 2s ease-in infinite;
 }
 
-
 $top: 150px;
 
 @keyframes bounce {
@@ -84,39 +83,24 @@ $top: 150px;
   10% {
     opacity: 1;
   }
-  25% {
+  20% {
     top: $top;
-    transform: scaleY(1);
+    transform: scaleY(1.2);
     transform-origin: 0 bottom 0;
   }
   30% {
-    top: $top;
-    transform: scaleY(0.7);
-    transform-origin: 0 bottom 0;
-  }
-  35% {
-    top: $top;
-    transform: scaleY(1.3);
+    top: calc(#{$top} - 15%);
+    transform: scaleY(0.9);
     transform-origin: 0 bottom 0;
   }
   40% {
     top: $top;
-    transform: scaleY(0.7);
-    transform-origin: 0 bottom 0;
-  }
-  45% {
-    top: $top;
-    transform: scaleY(1.3);
+    transform: scaleY(1.1);
     transform-origin: 0 bottom 0;
   }
   50% {
-    top: $top;
-    transform: scaleY(0.9);
-    transform-origin: 0 bottom 0;
-  }
-  55% {
-    top: $top;
-    transform: scaleY(1.1);
+    top: calc(#{$top} - 10%);
+    transform: scaleY(1);
     transform-origin: 0 bottom 0;
   }
   60% {
@@ -124,6 +108,17 @@ $top: 150px;
     transform: scaleY(1);
     transform-origin: 0 bottom 0;
   }
+  65% {
+    top: calc(#{$top} - 5%);
+    transform: scaleY(1);
+    transform-origin: 0 bottom 0;
+  }
+  70% {
+    top: $top;
+    transform: scaleY(1);
+    transform-origin: 0 bottom 0;
+  }
+
   100% {
     top: $top;
     transform: scaleY(1);

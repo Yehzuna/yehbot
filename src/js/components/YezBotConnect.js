@@ -49,6 +49,7 @@ export class YezBotConnect {
             if (channel !== false) {
                 this.channel = channel;
                 this.webSocket.send('JOIN #' + this.channel);
+                this.webSocket.send('TWITCHCLIENT 3');
 
                 this.log(`Connecting to #${this.channel}...`);
             }
@@ -148,7 +149,7 @@ export class YezBotConnect {
                 this.sendBits(parsedMessage);
             }
 
-            this.emotes.sendEmotes(parsedMessage['message']);
+            //this.emotes.sendEmotes(parsedMessage['message']);
 
             return false;
         }
@@ -204,12 +205,30 @@ export class YezBotConnect {
             user = userArray[0].slice(1).trim();
         }
 
+        // emotes
+        let emotes = [];
+        if (tags['emotes'] !== "") {
+            //137116:14-21/9:23-24
+            //88:0-7,9-16,18-25
+
+            let split = tags['emotes'].split('/');
+            split.forEach(function (data) {
+                let emote = data.split(':');
+
+                emotes.push({
+                    id: emote[0],
+                    count: emote[1].match(/\d+-\d/g).length
+                });
+            });
+        }
+
         return {
             channel: messageArray[3],
             message: message,
             command: command,
             cheer: cheer,
             tags: tags,
+            emotes: emotes,
             user: user,
             id: tags['user-id'] ,
             original: messageArray

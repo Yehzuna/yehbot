@@ -1,25 +1,25 @@
-import {YezBotData} from "./YezBotData";
-
 export class YezBotEmotes {
     constructor(channel) {
         this.channel = channel;
         this.overlay = document.querySelector(".overlay");
     }
 
-    sendEmotes(message) {
-        console.log(message);
-
-        YezBotData.getEmotes(this.channel, message).then((json) => {
-            const data = JSON.parse(json);
-            console.log(data);
-
-            data.forEach((id) => {
-                this.add(id);
-            })
-        });
+    add(id, count, animation = "bounce") {
+        for(let i = 0; i < count; i++) {
+            this[animation](id);
+        }
     }
 
-    add(id) {
+    bounce(id) {
+        let element = document.createElement('img');
+        element.src = `http://static-cdn.jtvnw.net/emoticons/v1/${id}/1.0`;
+        element.classList.add('emote');
+        element.classList.add('bounce');
+
+        this.overlay.appendChild(element);
+    }
+
+    bounceInOut(id) {
         let element = document.createElement('img');
         element.src = `http://static-cdn.jtvnw.net/emoticons/v1/${id}/1.0`;
         element.classList.add('emote');

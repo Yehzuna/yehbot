@@ -1,35 +1,27 @@
 export class YezBotData {
-    constructor(channel) {
-        //this.path = "http://yehzuna.byethost8.com";
-        this.path = "http://yezbot.local";
+
+    static getCheers(channel) {
+        return YezBotData.get(`http://yezbot.local/api/${channel}/cheers`);
     }
 
-    static getBits(channel = "") {
-        return YezBotData.get(`${this.path}/api/bits/${channel}`);
-    }
-
-    static setBits(channel = "", data) {
-        return YezBotData.post(`${this.path}/api/bits/${channel}`, data);
-    }
-
-    static getEmotes(channel, data) {
-        return YezBotData.post(`${this.path}/api/emotes/${channel}`, data);
+    static setCheers(channel, data) {
+        return YezBotData.post(`http://yezbot.local/api/${channel}/cheers`, data);
     }
 
     static get(url) {
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
             const request = new XMLHttpRequest();
             request.open('GET', url, true);
 
-            request.onload = function () {
+            request.onload = () => {
                 if (request.status === 200) {
                     resolve(request.response);
                 } else {
-                    reject(Error('Error' + request.statusText));
+                    reject(Error("Error" + request.statusText));
                 }
             };
-            request.onerror = function () {
-                reject(Error('There was a network error.'));
+            request.onerror = () => {
+                reject(Error("There was a network error."));
             };
 
             request.send();
@@ -37,20 +29,20 @@ export class YezBotData {
     }
 
     static post(url, data) {
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
             const request = new XMLHttpRequest();
             request.open('POST', url, true);
             request.setRequestHeader("Content-Type", "application/json");
 
-            request.onload = function () {
+            request.onload = () => {
                 if (request.status === 200) {
                     resolve(request.response);
                 } else {
-                    reject(Error('Error' + request.statusText));
+                    reject(Error("Error" + request.statusText));
                 }
             };
-            request.onerror = function () {
-                reject(Error('There was a network error.'));
+            request.onerror = () => {
+                reject(Error("There was a network error."));
             };
 
             request.send(JSON.stringify(data));

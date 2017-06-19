@@ -1,23 +1,22 @@
 import {YezBotQueue} from "./YezBotQueue";
 import {YezBotData} from "./YezBotData";
 
-export class YezBotBits extends YezBotQueue {
-    constructor() {
+export class YezBotCheers extends YezBotQueue {
+    constructor(channel) {
         super();
 
         this.data = [];
-
+        this.channel = channel;
         this.overlay = document.querySelector(".overlay");
 
-        let ul = document.querySelector(".bits");
+        let ul = document.querySelector(".cheers");
         if (ul === null) {
             ul = document.createElement('ul');
-            ul.classList.add('bits');
+            ul.classList.add('cheers');
             this.overlay.appendChild(ul);
         }
 
         this.parent = ul;
-
 
         this.loop();
 
@@ -26,7 +25,7 @@ export class YezBotBits extends YezBotQueue {
 
     refresh() {
         const _self = this;
-        YezBotData.getBits().then(function (data) {
+        YezBotData.getCheers(this.channel).then(function (data) {
             _self.data = JSON.parse(data);
             _self.list();
         });
@@ -36,7 +35,7 @@ export class YezBotBits extends YezBotQueue {
         const _self = this;
 
         _self.addToQueue(function () {
-            let els = document.querySelectorAll(".bits li");
+            let els = document.querySelectorAll(".cheers li");
             els = Array.prototype.slice.apply(els);
             console.log(els);
 
@@ -57,7 +56,7 @@ export class YezBotBits extends YezBotQueue {
         const _self = this;
         const ul = this.parent;
 
-        YezBotData.setBits(user);
+        YezBotData.setCheers(this.channel, user);
 
         let span = `<span>${user.name} a donné ${user.total} bits !</span>`;
         let li = document.createElement('li');

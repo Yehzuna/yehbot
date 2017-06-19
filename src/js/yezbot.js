@@ -1,6 +1,6 @@
 import {YezBotConnect} from "./components/YezBotConnect";
 
-let yezbot = new YezBotConnect("yezbot", "oauth:4205clljyhax1at6e37bn80b954j80");
+let yezbot = new YezBotConnect("yezbot", "oauth:4205clljyhax1at6e37bn80b954j80", false, true);
 
 document.querySelector("#join").addEventListener('click', function () {
     const channel = document.querySelector("#channel").value;

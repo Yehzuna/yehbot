@@ -1,5 +1,5 @@
 import {YezBotCommands} from "./YezBotCommands";
-import {YezBotBits} from "./YezBotBits";
+import {YezBotCheers} from "./YezBotCheers";
 import {YezBotEmotes} from "./YezBotEmotes";
 
 export class YezBotConnect {
@@ -13,8 +13,8 @@ export class YezBotConnect {
         this.channel = channel;
         this.debug = debug;
 
-        //this.commands = new YezBotCommands();
-        //this.bits = new YezBotBits();
+        this.commands = new YezBotCommands(channel);
+        this.cheers = new YezBotCheers(channel);
         this.emotes = new YezBotEmotes(channel);
 
         this.open();
@@ -49,7 +49,7 @@ export class YezBotConnect {
             if (channel !== false) {
                 this.channel = channel;
                 this.webSocket.send('JOIN #' + this.channel);
-                this.webSocket.send('TWITCHCLIENT 3');
+                //this.webSocket.send('TWITCHCLIENT 3');
 
                 this.log(`Connecting to #${this.channel}...`);
             }
@@ -90,17 +90,24 @@ export class YezBotConnect {
         }
     };
 
-    sendBits(params) {
-        this.bits.add({
+    sendCheers(params) {
+        this.cheers.add({
             id: params.id,
             name: params.user,
             total: params.cheer
         });
 
-        this.bits.refresh();
+        this.cheers.refresh();
 
         this.log(`Send Bits ${params.user}/${params.cheer}`);
+    };
 
+    sendEmotes(params) {
+        params['emotes'].forEach((index, emote) => {
+            this.cheers.add(emote.id, emote.count);
+
+            this.log(`Send Emote #${emote.id} (${emote.count})`);
+        });
     };
 
     sendPong(data) {
@@ -111,7 +118,6 @@ export class YezBotConnect {
 
     decodeMessage(message) {
         let decode = message.trim().split(' ');
-        //console.log(decode);
 
         if (decode[0] === "PING") {
             this.sendPong(decode[1]);
@@ -141,15 +147,16 @@ export class YezBotConnect {
             this.log(parsedMessage);
 
             if (parsedMessage['command']) {
-                this.log('command ' + parsedMessage['command']);
                 //this.sendCommand(parsedMessage['command'], parsedMessage);
             }
 
             if (parsedMessage['cheer'] > 0) {
-                this.sendBits(parsedMessage);
+                this.sendCheers(parsedMessage);
             }
 
-            //this.emotes.sendEmotes(parsedMessage['message']);
+            if (parsedMessage['emotes'].length > 0) {
+                this.sendEmotes(parsedMessage);
+            }
 
             return false;
         }
@@ -168,7 +175,7 @@ export class YezBotConnect {
         // tags
         let tagsArray = messageArray[0].slice(1).split(";");
         let tags = {};
-        tagsArray.forEach(function (data) {
+        tagsArray.forEach((data) => {
             let split = data.split('=');
 
             if (split[1].split(',').length === 1) {
@@ -212,7 +219,7 @@ export class YezBotConnect {
             //88:0-7,9-16,18-25
 
             let split = tags['emotes'].split('/');
-            split.forEach(function (data) {
+            split.forEach((data) => {
                 let emote = data.split(':');
 
                 emotes.push({

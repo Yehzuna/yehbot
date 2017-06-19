@@ -13,9 +13,9 @@ export class YezBotConnect {
         this.channel = channel;
         this.debug = debug;
 
-        this.commands = new YezBotCommands(channel);
-        this.cheers = new YezBotCheers(channel);
-        this.emotes = new YezBotEmotes(channel);
+        if (channel) {
+            this.services();
+        }
 
         this.open();
     }
@@ -26,6 +26,28 @@ export class YezBotConnect {
         this.webSocket.onerror = (event) => this.onError(event);
         this.webSocket.onclose = () => this.onClose();
         this.webSocket.onopen = () => this.onOpen();
+    };
+
+    services() {
+        this.commands = new YezBotCommands();
+        this.cheers = new YezBotCheers(this.channel);
+        this.emotes = new YezBotEmotes(this.channel);
+    }
+
+    join(channel) {
+        if (this.webSocket !== null && this.webSocket.readyState === 1) {
+            if (channel !== false) {
+                this.channel = channel;
+                this.webSocket.send('JOIN #' + this.channel);
+                //this.webSocket.send('TWITCHCLIENT 3');
+
+                this.services();
+
+                this.log(`Connecting to #${this.channel}...`);
+            }
+        } else {
+            this.log("Socket error.");
+        }
     };
 
     onOpen() {
@@ -40,21 +62,7 @@ export class YezBotConnect {
 
             this.join(this.channel);
         } else {
-            this.log("Error.");
-        }
-    };
-
-    join(channel) {
-        if (this.webSocket !== null && this.webSocket.readyState === 1) {
-            if (channel !== false) {
-                this.channel = channel;
-                this.webSocket.send('JOIN #' + this.channel);
-                //this.webSocket.send('TWITCHCLIENT 3');
-
-                this.log(`Connecting to #${this.channel}...`);
-            }
-        } else {
-            this.log("Error.");
+            this.log("Socket error.");
         }
     };
 

@@ -24,10 +24,10 @@ export class YezBotCheers extends YezBotQueue {
     }
 
     refresh() {
-        const _self = this;
-        YezBotData.getCheers(this.channel).then(function (data) {
-            _self.data = JSON.parse(data);
-            _self.list();
+        console.log(this.channel);
+        YezBotData.getCheers(this.channel).then((data) => {
+            this.data = JSON.parse(data);
+            this.list();
         });
     }
 

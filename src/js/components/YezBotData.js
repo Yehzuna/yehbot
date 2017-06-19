@@ -14,12 +14,13 @@ export class YezBotData {
             request.open('GET', url, true);
 
             request.onload = () => {
-                if (request.status === 200) {
+                if (request.status >= 200 && request.status < 300) {
                     resolve(request.response);
                 } else {
-                    reject(Error("Error" + request.statusText));
+                    reject(Error(request.statusText));
                 }
             };
+
             request.onerror = () => {
                 reject(Error("There was a network error."));
             };
@@ -35,12 +36,13 @@ export class YezBotData {
             request.setRequestHeader("Content-Type", "application/json");
 
             request.onload = () => {
-                if (request.status === 200) {
+                if (request.status >= 200 && request.status < 300) {
                     resolve(request.response);
                 } else {
-                    reject(Error("Error" + request.statusText));
+                    reject(Error(request.statusText));
                 }
             };
+
             request.onerror = () => {
                 reject(Error("There was a network error."));
             };

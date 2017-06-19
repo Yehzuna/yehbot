@@ -127,11 +127,16 @@ class Api
 
         if ($json = file_get_contents($file)) {
 
-            echo $json;
+            if(empty($json)) {
+                echo json_encode([]);
+            } else {
+                echo $json;
+            }
+
             $this->response(200, "Ok");
         }
 
-        $this->response(204, "No Content");
+        $this->response(500, "Internal Server Error");
     }
 
     /**

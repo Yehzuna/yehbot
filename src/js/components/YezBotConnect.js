@@ -107,12 +107,12 @@ export class YezBotConnect {
 
         this.cheers.refresh();
 
-        this.log(`Send Bits ${params.user}/${params.cheer}`);
+        this.log(`Send Cheers (${params.user}/${params.cheer})`);
     };
 
     sendEmotes(params) {
-        params['emotes'].forEach((index, emote) => {
-            this.cheers.add(emote.id, emote.count);
+        params['emotes'].forEach((emote) => {
+            this.emotes.add(emote.id, emote.count);
 
             this.log(`Send Emote #${emote.id} (${emote.count})`);
         });
@@ -168,10 +168,6 @@ export class YezBotConnect {
 
             return false;
         }
-
-
-        //> @badges=global_mod/1,turbo/1;color=#0D4200;display-name=dallas;emotes=25:0-4,12-16/1902:6-10;mod=0;room-id=1337;subscriber=0;turbo=1;user-id=1337;user-type=global_mod :ronni!ronni@ronni.tmi.twitch.tv PRIVMSG #dallas :Kappa Keepo Kappa
-        //> @badges=staff/1,bits/1000;bits=100;color=;display-name=dallas;emotes=;id=b34ccfc7-4977-403a-8a94-33c6bac34fb8;mod=0;room-id=1337;subscriber=0;turbo=1;user-id=1337;user-type=staff :ronni!ronni@ronni.tmi.twitch.tv PRIVMSG #dallas :cheer100
     };
 
     parsePrivateMessage(messageArray, messageStr) {
@@ -189,7 +185,13 @@ export class YezBotConnect {
             if (split[1].split(',').length === 1) {
                 tags[split[0]] = split[1];
             } else {
-                tags[split[0]] = split[1].split(',');
+                if (split[0] === "emotes") {
+                    tags[split[0]] = split[1];
+
+                } else {
+                    tags[split[0]] = split[1].split(',');
+
+                }
             }
         });
 
@@ -223,9 +225,6 @@ export class YezBotConnect {
         // emotes
         let emotes = [];
         if (tags['emotes'] !== "") {
-            //137116:14-21/9:23-24
-            //88:0-7,9-16,18-25
-
             let split = tags['emotes'].split('/');
             split.forEach((data) => {
                 let emote = data.split(':');

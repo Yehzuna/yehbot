@@ -24,7 +24,6 @@ export class YezBotCheers extends YezBotQueue {
     }
 
     refresh() {
-        console.log(this.channel);
         YezBotData.getCheers(this.channel).then((data) => {
             this.data = JSON.parse(data);
             this.list();

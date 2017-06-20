@@ -1,8 +1,8 @@
 .emote {
   position: absolute;
   opacity: 0;
-  animation-duration: 3s;
-  animation-name: bounceInOut;
+  left: 0;
+  top: 0;
 }
 
 @for $i from 0 through 5 {
@@ -15,6 +15,18 @@
   .duration-#{$i} {
     animation-duration: #{$i*.5+2}s;
   }
+}
+
+.bounce-in-out {
+  animation-duration: 3s;
+  animation-timing-function: ease;
+  animation-name: bounceInOut;
+}
+
+.bounce {
+  animation-duration: 2s;
+  animation-timing-function: ease-in;
+  animation-name: bounce;
 }
 
 @keyframes bounceInOut {
@@ -63,14 +75,6 @@
   }
 }
 
-
-.example {
-  position:absolute;
-  left: 0;
-  top: 0;
-  animation: bounce 2s ease-in infinite;
-}
-
 $top: 150px;
 
 @keyframes bounce {
@@ -89,7 +93,7 @@ $top: 150px;
     transform-origin: 0 bottom 0;
   }
   30% {
-    top: calc(#{$top} - 15%);
+    top: $top - 20px;
     transform: scaleY(0.9);
     transform-origin: 0 bottom 0;
   }
@@ -99,7 +103,7 @@ $top: 150px;
     transform-origin: 0 bottom 0;
   }
   50% {
-    top: calc(#{$top} - 10%);
+    top: $top - 10px;
     transform: scaleY(1);
     transform-origin: 0 bottom 0;
   }
@@ -109,7 +113,7 @@ $top: 150px;
     transform-origin: 0 bottom 0;
   }
   65% {
-    top: calc(#{$top} - 5%);
+    top: $top - 5px;
     transform: scaleY(1);
     transform-origin: 0 bottom 0;
   }

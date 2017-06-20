@@ -16,6 +16,11 @@ export class YezBotEmotes {
         element.classList.add('emote');
         element.classList.add('bounce');
 
+        const delay = Math.floor((Math.random() * 5));
+        element.classList.add(`delay-${delay}`);
+
+        element.style.left = Math.floor((Math.random() * 100) + 1) + '%';
+
         this.overlay.appendChild(element);
     }
 

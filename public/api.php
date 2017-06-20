@@ -13,7 +13,14 @@ class Api
      */
     const PATH = "data/";
 
+    /**
+     * @var string The current channel.
+     */
     private $channel;
+
+    /**
+     * @var string The current action.
+     */
     private $action;
 
     /**
@@ -21,7 +28,7 @@ class Api
      */
     public function __construct()
     {
-        if(!$this->parseUrl($_REQUEST['_url'])) {
+        if (!$this->parseUrl($_REQUEST['_url'])) {
             $this->response(400, "Bad Request");
         }
 
@@ -53,13 +60,14 @@ class Api
     }
 
     /**
+     * Parse an url.
      * /api/channel/action
      * @param $url
      * @return bool
      */
     private function parseUrl($url)
     {
-        if(preg_match("/^\/([a-z0-9]+)\/([a-z0-9]+)$/", $url, $matches)) {
+        if (preg_match("/^\/([a-z0-9]+)\/([a-z0-9]+)$/", $url, $matches)) {
 
             $this->action = ucfirst($matches[2]);
             $this->channel = $matches[1];
@@ -86,12 +94,30 @@ class Api
     }
 
     /**
-     * Update the config json.
-     * @param array $data
+     * Read the config json.
+     */
+    private function getConfig()
+    {
+        $file = self::PATH . "config.{$this->channel}.json";
+
+        $this->checkFile($file);
+
+        if ($json = file_get_contents($file)) {
+            echo $json;
+
+            $this->response(200, "Ok");
+        }
+
+        $this->response(500, "Internal Server Error");
+    }
+
+    /**
+     * Update the cheers json.
+     * @param array $data {"id":"123456","name":"name","total":100}
      */
     private function setCheers($data)
     {
-        $file = self::PATH . "bits.{$this->channel}.json";
+        $file = self::PATH . "cheers.{$this->channel}.json";
 
         if ($json = file_get_contents($file)) {
             $users = json_decode($json, true);
@@ -119,24 +145,34 @@ class Api
     }
 
     /**
-     *
+     * Read the cheers json.
      */
     private function getCheers()
     {
-        $file = self::PATH . "bits.{$this->channel}.json";
+        $file = self::PATH . "cheers.{$this->channel}.json";
+
+        $this->checkFile($file);
 
         if ($json = file_get_contents($file)) {
-
-            if(empty($json)) {
-                echo json_encode([]);
-            } else {
-                echo $json;
-            }
+            echo $json;
 
             $this->response(200, "Ok");
         }
 
         $this->response(500, "Internal Server Error");
+    }
+
+    /**
+     * Check if a file exist. Then create if not.
+     * @param $file
+     */
+    private function checkFile($file)
+    {
+        if (!is_file($file)) {
+            if (!file_put_contents($file, "[]")) {
+                $this->response(500, "Internal Server Error");
+            }
+        }
     }
 
     /**

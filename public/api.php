@@ -182,6 +182,8 @@ class Api
      */
     private function response($code, $status)
     {
+        header("Access-Control-Allow-Origin: *");
+        header("Content-Type: application/json");
         header("HTTP/1.0 $code $status");
         exit;
     }

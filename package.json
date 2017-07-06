@@ -1,8 +1,10 @@
 {
   "name": "YezBot",
-  "description": "A twitch BOT",
+  "description": "A Twitch BOT",
   "version": "1.0.0",
   "repository": "https://github.com/Yehzuna/yehbot",
+  "license": "MIT",
+  "scripts": {},
   "devDependencies": {
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^1.0.0",
@@ -12,5 +14,6 @@
     "grunt-contrib-uglify": "^2.2.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-rollup": "^1.0.1"
-  }
+  },
+  "dependencies": {}
 }

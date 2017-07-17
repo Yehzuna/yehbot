@@ -1,3 +1,2 @@
 # YezBot
-
-A Twitch Bot
+> A Twitch Bot

@@ -4,8 +4,5 @@ node_modules/
 .sass-cache/
 
 
-public/fonts/
-public/css/
-public/img/
-public/js/
+public/*
 data/

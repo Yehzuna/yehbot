@@ -4,9 +4,7 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         clean: {
             dist:[
-                'public/js/',
-                'public/css/',
-                'public/img/'
+                'public'
             ]
         },
         compass: {
@@ -46,12 +44,22 @@ module.exports = function(grunt) {
                 }]
             }
         },
-        uglify: {
-            js: {
-                src: ['public/js/yezbot.js'],
-                dest: 'public/js/yezbot.js'
+        copy: {
+            tpl: {
+                files: [{
+                    expand: true,
+                    cwd: 'src/tpl/',
+                    src: '*',
+                    dest: 'public/'
+                }]
             }
         },
+        uglify: {
+            js: {
+                src: 'public/js/yezbot.js',
+                dest: 'public/js/yezbot.js'
+            }
+        }
     });
 
     grunt.loadNpmTasks('grunt-contrib-clean');
@@ -67,12 +75,12 @@ module.exports = function(grunt) {
     grunt.registerTask('dev', [
         'clean',
         'compass:dev',
-        'rollup'
+        'rollup',
+        'copy'
     ]);
 
     grunt.registerTask('prod', [
         'clean',
-        'copy',
         'compass:prod',
         'concat',
         'uglify'

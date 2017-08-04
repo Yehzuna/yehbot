@@ -39,7 +39,6 @@ export class YezBotConnect {
             if (channel !== false) {
                 this.channel = channel;
                 this.webSocket.send('JOIN #' + this.channel);
-                //this.webSocket.send('TWITCHCLIENT 3');
 
                 this.services();
 

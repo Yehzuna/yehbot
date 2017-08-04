@@ -1,0 +1,37 @@
+.boss {
+  position: relative;
+  width: 400px;
+  height: 100px;
+  background: #171D22;
+  border: 1px solid #43484C;
+  border-radius: 3px;
+  font-size: 16px;
+  color: #fff;
+
+  .image {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    width: 80px;
+    height: 80px;
+    background: #23292D;
+    border: 1px solid #43484C;
+    border-radius: 3px;
+  }
+
+  .container {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 300px;
+    height: 80px;
+  }
+
+  .bar {
+    background: #23292D;
+    border: 1px solid #43484C;
+    border-radius: 100px;
+  }
+
+}
+

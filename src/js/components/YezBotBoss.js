@@ -2,29 +2,29 @@ export class YezBotEmotes {
     constructor(channel) {
         this.channel = channel;
         this.overlay = document.querySelector(".overlay");
+        this.boss = document.querySelector(".boss");
+
+
+        const data = {
+            name: "Un boss",
+            hp: 900,
+            hp_max: 1000,
+            mp: 20,
+            mp_max: 100,
+        };
+
+        this.set(data);
     }
 
-    add(id, count, animation = "bounce") {
-        for(let i = 0; i < count; i++) {
-            this[animation](id);
-        }
-    }
+    set(data) {
+        this.boss.querySelector(".title").innerHTML = data.name;
 
-    bounce(id) {
+        const hp = data.hp * 100 / data.hp_max;
+        this.boss.querySelector(".bar.hp .progress").style.width = `${hp}%`;
+        this.boss.querySelector(".status .hp").innerHTML= `HP: ${data.hp}/${data.hp_max}`;
 
-
-
-
-        let element = document.createElement('img');
-        element.src = `http://static-cdn.jtvnw.net/emoticons/v1/${id}/1.0`;
-        element.classList.add('emote');
-        element.classList.add('bounce');
-
-        const delay = Math.floor((Math.random() * 5));
-        element.classList.add(`delay-${delay}`);
-
-        element.style.left = Math.floor((Math.random() * 100) + 1) + '%';
-
-        this.overlay.appendChild(element);
+        const mp = data.mp * 100 / data.mp_max;
+        this.boss.querySelector(".bar.mp .progress").style.width = `${mp}%`;
+        this.boss.querySelector(".status .mp").innerHTML= `MP: ${data.mp}/${data.mp_max}`;
     }
 }

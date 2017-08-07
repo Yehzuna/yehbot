@@ -101,3 +101,19 @@
   }
 }
 
+.damage {
+  animation: damage 2s ease-in;
+}
+
+
+
+/*
+// generator
+@keyframes damage {
+  @for $i from 0 through 10 {
+    #{$i*10}% {
+      transform: translate(#{$i+'%'}, #{$i+'%'});
+    }
+  }
+}
+*/

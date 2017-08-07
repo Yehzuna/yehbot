@@ -35,8 +35,22 @@ export class YezBotBoss {
         return data;
     }
 
+    reset() {
+        this.boss.classList.remove('damage');
+        this.boss.classList.remove('healing');
+
+        console.log(this.boss.querySelectorAll(".message"));
+        this.boss.querySelectorAll(".message").forEach((message) => {
+            console.log(message);
+            message.remove();
+        })
+    }
+
     set(data) {
         data = this.format(data);
+
+        const message = document.createElement('div');
+        message.classList.add('message');
 
         // Boss name
         this.boss.querySelector(".title").innerHTML = data.name;
@@ -44,27 +58,49 @@ export class YezBotBoss {
         // HP
         const hp = data.hp * 100 / data.hpMax;
         this.boss.querySelector(".bar.hp .progress").style.width = `${hp}%`;
-        this.boss.querySelector(".status .hp").innerHTML= `HP: ${data.hp}/${data.hpMax}`;
+        this.boss.querySelector(".bar.hp .count").innerHTML = `${hp}%`;
+        this.boss.querySelector(".status .hp").innerHTML = `HP: ${data.hp}/${data.hpMax}`;
 
-        // HP color
-        this.boss.querySelector(".bar.hp").classList.remove('med');
-        this.boss.querySelector(".bar.hp").classList.remove('min');
-        if (hp <= 50) {
-            this.boss.querySelector(".bar.hp").classList.add('med');
+        let diff = data.hp - this.data.hp;
+        if (diff !== 0) {
+            if (diff < 0) {
+                message.classList.add('minus');
+                message.innerHTML = `HP${diff}`;
+            } else {
+                message.classList.add('plus');
+                message.innerHTML = `HP+${diff}`;
+            }
+            this.boss.appendChild(message);
         }
-        if (hp <= 20) {
-            this.boss.querySelector(".bar.hp").classList.add('min');
-        }
-
-        // test
-        this.boss.classList.add('damage');
 
         // MP
         const mp = data.mp * 100 / data.mpMax;
         this.boss.querySelector(".bar.mp .progress").style.width = `${mp}%`;
-        this.boss.querySelector(".status .mp").innerHTML= `MP: ${data.mp}/${data.mpMax}`;
+        this.boss.querySelector(".bar.mp .count").innerHTML = `${mp}%`;
+        this.boss.querySelector(".status .mp").innerHTML = `MP: ${data.mp}/${data.mpMax}`;
+
+        // HP color
+        this.boss.querySelector(".bar.hp").classList.remove('danger');
+        this.boss.querySelector(".bar.hp").classList.remove('critical');
+        if (hp <= 50) {
+            this.boss.querySelector(".bar.hp").classList.add('danger');
+        }
+        if (hp <= 20) {
+            this.boss.querySelector(".bar.hp").classList.add('critical');
+        }
+
+        // Animation
+        if (this.data.hp > data.hp) {
+            this.boss.classList.add('damage');
+        } else if (this.data.hp < data.hp) {
+            this.boss.classList.add('healing');
+        }
+
+        // Animation reset
+        setTimeout(() => this.reset(), 1500);
 
         // Save data
         this.data = data;
+
     }
 }

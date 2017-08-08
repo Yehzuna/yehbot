@@ -33,8 +33,13 @@
 
 
 <form name="form" id="form" class="form">
+    <input type="submit" value="Update" />
+
     <label for="name">Name</label>
     <input type="text" name="name" id="name" value="BOSS" />
+
+    <label for="img">Name</label>
+    <input type="text" name="img" id="img" value="" />
 
     <label for="hpMax">HP Max</label>
     <input type="text" name="hpMax" id="hpMax" value="1000" />
@@ -52,9 +57,9 @@
     <input type="checkbox" name="critical" id="critical" value="1" />
 
     <label for="criticalBonus">Critical hits value (%)</label>
-    <input type="range" min="0" max="100" name="criticalBonus" id="criticalBonus" value="20" />
+    <input type="range" min="0" max="100" name="criticalBonus" id="criticalBonus" value="20" /><input type="text" value="20" />
 
-    <input type="submit" value="Update" />
+
 </form>
 
 <script src="../js/yezbot-boss.js"></script>

@@ -97,6 +97,8 @@ export class YezBotBoss {
         // Animation
         if (this.data.hp > data.hp) {
             this.boss.classList.add('damage');
+
+
         } else if (this.data.hp < data.hp) {
             this.boss.classList.add('healing');
         }

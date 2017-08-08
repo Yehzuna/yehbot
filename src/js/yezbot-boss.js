@@ -2,7 +2,7 @@ import {YezBotBoss} from "./components/YezBotBoss";
 
 const boss = new YezBotBoss();
 
-document.getElementById('form').addEventListener('submit', (event) => {
+document.getElementById('form').addEventListener('submit', function(event) {
     event.preventDefault();
 
     let data = {};
@@ -21,7 +21,7 @@ document.getElementById('form').addEventListener('submit', (event) => {
     return false;
 });
 
-document.querySelectorAll("input[type='range']").forEach((element) => {
+document.querySelectorAll("input[type='range']").forEach(function(element) {
     element.addEventListener('change', () => {
         const next = element.nextSibling;
         next.value = element.value;

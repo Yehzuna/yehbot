@@ -92,11 +92,10 @@
     &.hp {
       height: 18px;
       border-radius: 5px;
-
-        &.danger {
-         .progress {
-           background: linear-gradient(135deg, #f1a165, #F1F165, #F3F30C);
-         }
+      &.danger {
+        .progress {
+          background: linear-gradient(135deg, #f1a165, #F1F165, #F3F30C);
+        }
       }
       &.critical {
         .progress {
@@ -169,15 +168,16 @@
 }
 
 .damage {
-  animation: damage 1s cubic-bezier(.36,.07,.19,.97) both;
+  animation: damage 1s cubic-bezier(.36, .07, .19, .97) both;
   .overlay {
-    background: radial-gradient(ellipse at center, #711212,#8f0222);
+    //background: radial-gradient(ellipse at center, #711212, #8f0222);
+    background: radial-gradient(ellipse at center, #711212, #8f0222, #fff);
     animation: overlay 1s ease-in;
   }
 }
 
 .healing {
-  animation: healing 1s cubic-bezier(.36,.07,.19,.97) both;
+  animation: healing 1s cubic-bezier(.36, .07, .19, .97) both;
   .overlay {
     background: radial-gradient(ellipse at center, #002400, #0CF30C);
     animation: overlay 1s ease-in;

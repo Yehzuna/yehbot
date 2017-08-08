@@ -5,11 +5,19 @@ export class YezBotBoss {
         this.boss = document.querySelector(".boss");
 
         this.data = {
-            name: "Un boss",
-            hp: 900,
+            id: "123456",
+            name: "BOSS NAME",
+            img: "https://static-cdn.jtvnw.net/jtv_user_pictures/monsieursapin-profile_image-c5a2bdf8de8fd049-300x300.png",
+            hp: 800,
             hpMax: 1000,
             mp: 20,
             mpMax: 100,
+            critical: 1,
+            criticalBonus: 20,
+            dodge: 1,
+            dodgeBonus: 20,
+            sub: 1,
+            subBonus: 10,
         };
 
         this.set(this.data);
@@ -38,43 +46,40 @@ export class YezBotBoss {
     reset() {
         this.boss.classList.remove('damage');
         this.boss.classList.remove('healing');
-
-        console.log(this.boss.querySelectorAll(".message"));
-        this.boss.querySelectorAll(".message").forEach((message) => {
-            console.log(message);
-            message.remove();
-        })
+        this.boss.querySelectorAll(".message").forEach((message) => message.remove());
     }
 
-    set(data) {
+    set (data) {
         data = this.format(data);
 
         const message = document.createElement('div');
         message.classList.add('message');
 
-        // Boss name
+        // Boss data
         this.boss.querySelector(".title").innerHTML = data.name;
+        this.boss.querySelector(".image img").src = data.img;
 
         // HP
-        const hp = data.hp * 100 / data.hpMax;
+        const hp = Math.round(data.hp * 100 / data.hpMax);
         this.boss.querySelector(".bar.hp .progress").style.width = `${hp}%`;
         this.boss.querySelector(".bar.hp .count").innerHTML = `${hp}%`;
         this.boss.querySelector(".status .hp").innerHTML = `HP: ${data.hp}/${data.hpMax}`;
 
+        // Alert message
         let diff = data.hp - this.data.hp;
         if (diff !== 0) {
             if (diff < 0) {
                 message.classList.add('minus');
-                message.innerHTML = `HP${diff}`;
+                message.innerHTML = `HP ${diff}`;
             } else {
                 message.classList.add('plus');
-                message.innerHTML = `HP+${diff}`;
+                message.innerHTML = `HP +${diff}`;
             }
             this.boss.appendChild(message);
         }
 
         // MP
-        const mp = data.mp * 100 / data.mpMax;
+        const mp = Math.round(data.mp * 100 / data.mpMax);
         this.boss.querySelector(".bar.mp .progress").style.width = `${mp}%`;
         this.boss.querySelector(".bar.mp .count").innerHTML = `${mp}%`;
         this.boss.querySelector(".status .mp").innerHTML = `MP: ${data.mp}/${data.mpMax}`;
@@ -101,6 +106,5 @@ export class YezBotBoss {
 
         // Save data
         this.data = data;
-
     }
 }

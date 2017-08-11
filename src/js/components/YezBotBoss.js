@@ -4,20 +4,39 @@ export class YezBotBoss {
         this.overlay = document.querySelector(".overlay");
         this.boss = document.querySelector(".boss");
 
+        this.log = {
+            absorbs: 0,
+            reduce: 0,
+            critical: 0,
+            dodge: 0,
+            subscriber: 0,
+            message: '',
+        };
+
         this.data = {
-            id: "123456",
+            id: 0,
+            channel: 'channel',
             name: "BOSS NAME",
             img: "https://static-cdn.jtvnw.net/jtv_user_pictures/monsieursapin-profile_image-c5a2bdf8de8fd049-300x300.png",
-            hp: 800,
+            hp: 1000,
             hpMax: 1000,
-            mp: 20,
+            mp: 100,
             mpMax: 100,
-            critical: 1,
-            criticalBonus: 20,
-            dodge: 1,
-            dodgeBonus: 20,
-            sub: 1,
-            subBonus: 10,
+            absorbs: 0,
+            reduce: 0,
+            shieldCost: 20,
+            shieldValue: 30,
+            shieldAmount: 3,
+            blockCost: 40,
+            blockValue: 300,
+            buff: true,
+            buffValue: 200,
+            critical: true,
+            criticalValue: 20,
+            dodge: true,
+            dodgeValue: 20,
+            subscriber: true,
+            subscriberValue: 10,
         };
 
         this.set(this.data);
@@ -42,6 +61,31 @@ export class YezBotBoss {
 
         return data;
     }
+
+    attack(value) {
+        let attack = value;
+
+        if(this.data.critical && (Math.random() * 100) <= this.data.criticalValue) {
+            this.log.critical = (value * this.data.criticalValue / 100);
+            attack += this.log.critical;
+        }
+
+        if(this.data.subscriber && (Math.random() * 100) <= this.data.subscriberValue) {
+            this.log.subscriber = (value * this.data.subscriberValue / 100);
+            attack += this.log.subscriber;
+
+        }
+
+        if(this.data.dodge && (Math.random() * 100) <= this.data.dodgeValue) {
+            this.log.dodge = (value * this.data.dodgeValue / 100);
+            attack -= this.log.dodge;
+        }
+
+        if(this.data.reduce > 0) {
+            this.log.subscriber = (value * this.data.subscriberValue / 100);
+        }
+    }
+
 
     reset() {
         this.boss.classList.remove('damage');

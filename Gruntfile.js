@@ -70,7 +70,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-watch');
     grunt.loadNpmTasks('grunt-rollup');
 
-    grunt.registerTask('default', ['watch']);
+    grunt.registerTask('default', ['dev']);
 
     grunt.registerTask('dev', [
         'clean',

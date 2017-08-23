@@ -92,12 +92,12 @@
     &.hp {
       height: 18px;
       border-radius: 5px;
-      &.danger {
+      &.warning {
         .progress {
           background: linear-gradient(135deg, #f1a165, #F1F165, #F3F30C);
         }
       }
-      &.critical {
+      &.danger {
         .progress {
           background: linear-gradient(135deg, #711212, #f0a3a3, #f42323);
         }

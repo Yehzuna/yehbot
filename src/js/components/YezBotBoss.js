@@ -4,16 +4,7 @@ export class YezBotBoss {
         this.overlay = document.querySelector(".overlay");
         this.boss = document.querySelector(".boss");
 
-        this.log = {
-            absorbs: 0,
-            reduce: 0,
-            critical: 0,
-            dodge: 0,
-            subscriber: 0,
-            message: '',
-        };
-
-        this.data = {
+        this.config = {
             id: 0,
             channel: 'channel',
             name: "BOSS NAME",
@@ -39,7 +30,38 @@ export class YezBotBoss {
             subscriberValue: 10,
         };
 
-        this.set(this.data);
+        this.log = {
+            base: 0,
+
+            subscriber: 0,
+            critical: 0,
+            dodge: 0,
+
+            reduce: 0,
+            absorbs: 0,
+
+            total: 0,
+
+            message: '',
+        };
+
+        this.data = {
+            id: 0,
+            channel: 'channel',
+            name: "BOSS NAME",
+            img: "https://static-cdn.jtvnw.net/jtv_user_pictures/monsieursapin-profile_image-c5a2bdf8de8fd049-300x300.png",
+            hp: 1000,
+            hpMax: 1000,
+            mp: 100,
+            mpMax: 100,
+            absorbs: 0,
+            reduce: 0,
+
+            criticalHit: false,
+            dodgeHit: false,
+        };
+
+        // this.set(this.data);
     }
 
     format(data) {
@@ -63,29 +85,38 @@ export class YezBotBoss {
     }
 
     attack(value) {
-        let attack = value;
+        this.log.base = value;
 
+        this.log.subscriber = 0;
+        if(this.data.subscriber) {
+            this.log.subscriber = (value * this.data.subscriberValue / 100);
+        }
+
+        this.log.critical = 0;
         if(this.data.critical && (Math.random() * 100) <= this.data.criticalValue) {
             this.log.critical = (value * this.data.criticalValue / 100);
-            attack += this.log.critical;
         }
 
-        if(this.data.subscriber && (Math.random() * 100) <= this.data.subscriberValue) {
-            this.log.subscriber = (value * this.data.subscriberValue / 100);
-            attack += this.log.subscriber;
-
-        }
-
+        this.log.dodge = 0;
         if(this.data.dodge && (Math.random() * 100) <= this.data.dodgeValue) {
             this.log.dodge = (value * this.data.dodgeValue / 100);
-            attack -= this.log.dodge;
         }
 
+        // neutralization
+        if (this.log.critical === this.log.dodge) {
+            this.log.critical = 0;
+            this.log.dodge = 0;
+        }
+
+        this.log.reduce = 0;
         if(this.data.reduce > 0) {
-            this.log.subscriber = (value * this.data.subscriberValue / 100);
+            this.log.reduce = (value * this.data.reduce / 100);
         }
-    }
 
+        this.log.absorbs = this.data.absorbs;
+
+        console.log(this.log);
+    }
 
     reset() {
         this.boss.classList.remove('damage');
@@ -93,7 +124,8 @@ export class YezBotBoss {
         this.boss.querySelectorAll(".message").forEach((message) => message.remove());
     }
 
-    set (data) {
+
+    animate (data) {
         data = this.format(data);
 
         const message = document.createElement('div');
@@ -129,23 +161,23 @@ export class YezBotBoss {
         this.boss.querySelector(".status .mp").innerHTML = `MP: ${data.mp}/${data.mpMax}`;
 
         // HP color
+        this.boss.querySelector(".bar.hp").classList.remove('warning');
         this.boss.querySelector(".bar.hp").classList.remove('danger');
-        this.boss.querySelector(".bar.hp").classList.remove('critical');
         if (hp <= 50) {
-            this.boss.querySelector(".bar.hp").classList.add('danger');
+            this.boss.querySelector(".bar.hp").classList.add('warning');
         }
         if (hp <= 20) {
-            this.boss.querySelector(".bar.hp").classList.add('critical');
+            this.boss.querySelector(".bar.hp").classList.add('danger');
         }
 
         // Animation
         if (this.data.hp > data.hp) {
             this.boss.classList.add('damage');
-
-
         } else if (this.data.hp < data.hp) {
             this.boss.classList.add('healing');
         }
+
+
 
         // Animation reset
         setTimeout(() => this.reset(), 1500);
